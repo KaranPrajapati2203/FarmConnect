@@ -1,0 +1,22 @@
+/* footer.component.css */
+.footer {
+    background-color: #f8f9fa; /* Light background */
+    color: #4CAF50; /* Green text */
+  }
+  
+  .footer a {
+    color: #4CAF50;
+  }
+  
+  .footer a:hover {
+    color: #388E3C; /* Darker green on hover */
+  }
+  
+  .footer .text-uppercase {
+    font-weight: bold;
+  }
+  
+  .footer .fab {
+    font-size: 1.25rem;
+  }
+  
