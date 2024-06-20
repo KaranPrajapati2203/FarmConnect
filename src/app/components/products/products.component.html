@@ -1,0 +1,20 @@
+<!-- products.component.html -->
+<div class="container mt-4">
+    <h1 class="mb-4">Products</h1>
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let product of products">
+        <div class="card h-100">
+          <img src="{{ product.imageUrl }}" class="card-img-top" alt="{{ product.name }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.description }}</p>
+          </div>
+          <div class="card-footer">
+            <p class="card-text"><strong>₹{{ product.price }}</strong></p>
+            <a href="#" class="btn btn-success">Buy Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
