@@ -1,14 +1,41 @@
-/* products.component.css */
-.card {
-    transition: transform 0.2s;
-  }
-  
-  .card:hover {
-    transform: scale(1.05);
-  }
-  
-  .card-img-top {
-    height: 200px;
-    object-fit: cover;
-  }
-  
+/* General product card styling */
+.product-card {
+  text-align: center;
+}
+
+/* Circular image styling */
+.product-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+/* Ensuring image fits the circular div */
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+
+/* Product name styling */
+.product-name {
+  margin-top: 10px;
+}
+
+/* Heading for product name */
+.product-name h5 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Adding hover effect to the image */
+.product-image:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-sellers',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './sellers.component.html',
   styleUrl: './sellers.component.css'
 })
@@ -48,9 +49,24 @@ export class SellersComponent {
     }
   ];
 
+  filteredSellers!: any[]; // Array to hold filtered sellers
+  searchText: string = ''; // Variable to hold search input
 
   constructor() { }
 
   ngOnInit(): void {
+    this.filteredSellers = this.sellers;
+  }
+
+  filterSellers() {
+    // Filter sellers based on searchText
+    if (this.searchText.trim() !== '') {
+      this.filteredSellers = this.sellers.filter(seller =>
+        seller.name.toLowerCase().includes(this.searchText.toLowerCase())
+      );
+    } else {
+      // If search input is empty, show all sellers
+      this.filteredSellers = this.sellers;
+    }
   }
 }
