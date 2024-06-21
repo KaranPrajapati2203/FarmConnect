@@ -20,6 +20,8 @@ export class ProductsComponent {
       description: 'Fresh and juicy organic apples from local farms.',
       price: 120,
       type: 'fruits',
+      selectedQuantity: 0,
+      measureType: 'kg',
       imageUrl: 'https://www.shimlafarms.com/cdn/shop/products/Redapple3.png?v=1675785288&width=1445'
     },
     {
@@ -27,6 +29,8 @@ export class ProductsComponent {
       description: 'Crisp and sweet carrots grown with love.',
       price: 90,
       type: 'vegetables',
+      selectedQuantity: 0,
+      measureType: 'kg',
       imageUrl: 'https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/usa-new-york-city-carrots-for-sale-tetra-images.jpg'
     },
     {
@@ -34,6 +38,8 @@ export class ProductsComponent {
       description: 'Pure and fresh milk from grass-fed cows.',
       price: 50,
       type: 'dairy',
+      selectedQuantity: 0,
+      measureType: 'L', // Example measure type for dairy milk
       imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFLbH-mTn8P736RPcSHkV16rhLF1vZvStQMg&s'
     },
     {
@@ -41,6 +47,8 @@ export class ProductsComponent {
       description: 'Sweet and juicy strawberries freshly picked.',
       price: 150,
       type: 'fruits',
+      selectedQuantity: 0,
+      measureType: 'kg',
       imageUrl: 'https://d3fwccq2bzlel7.cloudfront.net/Pictures/480xany/5/8/8/35588_2_1203853_e.jpg'
     },
     {
@@ -48,6 +56,8 @@ export class ProductsComponent {
       description: 'Healthy and fresh organic broccoli.',
       price: 80,
       type: 'vegetables',
+      selectedQuantity: 0,
+      measureType: 'kg',
       imageUrl: 'https://s.alicdn.com/@sc04/kf/A4f577b2659534d3292fd568d359d9cc5j.jpg_300x300.jpg'
     },
     {
@@ -55,6 +65,8 @@ export class ProductsComponent {
       description: 'Fresh and juicy oranges.',
       price: 200,
       type: 'fruits',
+      selectedQuantity: 0,
+      measureType: 'kg',
       imageUrl: 'https://tacomaboys.com/wp-content/uploads/2020/04/TB-27-8701-1024x588.jpg'
     },
     {
@@ -62,6 +74,8 @@ export class ProductsComponent {
       description: 'Ripe and juicy organic tomatoes.',
       price: 70,
       type: 'vegetables',
+      selectedQuantity: 0,
+      measureType: 'kg',
       imageUrl: 'https://i.cdn.newsbytesapp.com/images/l29720230821154142.jpeg'
     },
     {
@@ -69,6 +83,8 @@ export class ProductsComponent {
       description: 'Leafy green spinach, rich in nutrients.',
       price: 60,
       type: 'vegetables',
+      selectedQuantity: 0,
+      measureType: 'kg',
       imageUrl: 'https://www.bigbasket.com/media/uploads/p/xxl/40200226_1-farmogo-spinach-hydroponically-grown.jpg'
     },
     {
@@ -76,16 +92,19 @@ export class ProductsComponent {
       description: 'Sweet and juicy organic grapes.',
       price: 140,
       type: 'fruits',
+      selectedQuantity: 0,
+      measureType: 'kg',
       imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/36/Kyoho-grape.jpg'
     }
   ];
+  
 
   filteredProducts!: any[]; // Array to hold filtered products
   searchText: string = ''; // Variable to hold search input
   selectedType: string = ''; // Variable to hold selected type
 
   displayedProducts: any[] = []; // Array to hold products for the current view
-  itemsPerLoad: number = 18;
+  itemsPerLoad: number = 12;
   currentIndex: number = 0;
 
   constructor(private router: Router) { }
@@ -131,5 +150,27 @@ export class ProductsComponent {
     this.router.navigate(['/product-details', product.name]);
   }
 
+  increaseQuantity(product: any) {
+    if (product.selectedQuantity < 50) {
+      product.selectedQuantity += 0.25;
+      product.selectedQuantity = parseFloat(product.selectedQuantity.toFixed(2)); // To avoid floating point issues
+    }
+  }
 
+  decreaseQuantity(product: any) {
+    if (product.selectedQuantity > 0) {
+      product.selectedQuantity -= 0.25;
+      product.selectedQuantity = parseFloat(product.selectedQuantity.toFixed(2)); // To avoid floating point issues
+    }
+  }
+
+  isQuantityZero(product: any): boolean {
+    return product.selectedQuantity === 0;
+  }
+
+  addToCart(product: any) {
+    console.log(`Added ${product.selectedQuantity} kg of ${product.name} to the cart.`);
+    // You can add logic to add the product to the cart here
+    product.selectedQuantity=0;
+  }
 }
