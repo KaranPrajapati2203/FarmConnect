@@ -1,16 +1,19 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, AfterViewInit, Inject, PLATFORM_ID, OnInit } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-sellers',
+  selector: 'app-map',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './sellers.component.html',
-  styleUrl: './sellers.component.css'
+  imports: [RouterLink],
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.css']
 })
-export class SellersComponent {
+export class MapComponent implements OnInit, AfterViewInit {
+  private map: any;
+  private sellerId: number | undefined;
+  seller: any; // Variable to hold the selected seller details
+
   sellers = [
     {
       id: 1,
@@ -68,29 +71,41 @@ export class SellersComponent {
     }
   ];
 
-
-  filteredSellers!: any[]; // Array to hold filtered sellers
-  searchText: string = ''; // Variable to hold search input
-
-  constructor(@Inject(PLATFORM_ID) private platformId: Object,private router:Router) { }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.filteredSellers = this.sellers;
+    this.route.params.subscribe((params: any) => {
+      this.sellerId = +params['id'];
+      this.seller = this.sellers.find(seller => seller.id === this.sellerId);
+    });
   }
 
-  filterSellers() {
-    // Filter sellers based on searchText
-    if (this.searchText.trim() !== '') {
-      this.filteredSellers = this.sellers.filter(seller =>
-        seller.name.toLowerCase().includes(this.searchText.toLowerCase())
-      );
-    } else {
-      // If search input is empty, show all sellers
-      this.filteredSellers = this.sellers;
+  ngAfterViewInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadLeaflet();
     }
   }
 
-  viewOnMap(sellerId: number) {
-    this.router.navigate(['/market-location', sellerId]);
+  private async loadLeaflet() {
+    const L = await import('leaflet');
+    this.initMap(L);
+  }
+
+  private initMap(L: any): void {
+    const seller = this.sellers.find(s => s.id === this.sellerId);
+    if (!seller) {
+      console.error('Seller not found');
+      return;
+    }
+
+    this.map = L.map('map').setView([seller.latitude, seller.longitude], 10);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(this.map);
+
+    L.marker([seller.latitude, seller.longitude]).addTo(this.map)
+      .bindPopup(`<b>${seller.name}</b><br>${seller.location}`)
+      .openPopup();
   }
 }

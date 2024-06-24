@@ -1,10 +1,12 @@
 <!-- sellers.component.html -->
 <div class="container mt-4">
+
   <h1 class="mb-4">Sellers</h1>
 
   <!-- Search bar for Sellers -->
   <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Search sellers..." [(ngModel)]="searchText" (input)="filterSellers()">
+    <input type="text" class="form-control" placeholder="Search sellers..." [(ngModel)]="searchText"
+      (input)="filterSellers()">
   </div>
 
   <!-- Seller list -->
@@ -15,9 +17,16 @@
         <div class="card-body">
           <h5 class="card-title">{{ seller.name }}</h5>
           <p class="card-text">{{ seller.description }}</p>
-          <p class="card-text"><strong>Location: {{ seller.location }}</strong></p>
+          <!-- <p class="card-text"><strong>Location: {{ seller.location }}</strong></p> -->
+          <div class="d-flex justify-content-between align-items-center">
+            <p class="card-text mb-0"><strong>Location: {{ seller.location }}</strong></p>
+            <button class="btn btn-outline-success" (click)="viewOnMap(seller.id)">View on Map</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- <div id="map" style="height: 500px;" *ngIf="selectedSeller"></div> -->
+
 </div>

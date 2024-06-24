@@ -1,0 +1,12 @@
+<div class="container mt-4">
+    <button class="btn btn-success mt-3 ms-4" routerLink="/sellers">Back to sellers</button>
+    <div class="container mt-2 d-flex justify-content-center">
+        <div class="seller-details">
+            <img [src]="seller?.imageUrl" alt="{{ seller?.name }}" class="img-fluid">
+            <h2>{{ seller?.name }}</h2>
+            <p><strong>Description:</strong> {{ seller?.description }}</p>
+            <p><strong>Location:</strong> {{ seller?.location }}</p>
+        </div>
+        <div id="map" class="map-container"></div>
+    </div>
+</div>

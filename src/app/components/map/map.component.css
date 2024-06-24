@@ -1,0 +1,39 @@
+  .container {
+    padding: 1rem;
+    background-color: #f8f9fa; /* Light background to match navbar */
+    border-radius: 8px; /* Rounded corners for a softer look */
+  }
+  
+  .btn {
+    background-color: #4CAF50; /* Green background */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .btn:hover {
+    background-color: #388E3C; /* Darker green on hover */
+  }
+  
+  .seller-details {
+    flex: 1;
+    max-width: 300px;
+    margin-right: 20px;
+  }
+  
+  .img-fluid {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 8px; /* Optional: rounded corners for images */
+    object-fit: cover; /* Maintains aspect ratio */
+  }
+  
+  .map-container {
+    flex: 2;
+    height: 500px;
+    width: 600px;
+    border-radius: 8px; /* Rounded corners for the map */
+  }
+  

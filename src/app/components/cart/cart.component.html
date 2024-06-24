@@ -2,7 +2,7 @@
     <h1>Your Cart</h1>
     <div *ngIf="cart.length === 0">
       <p>Your cart is empty.</p>
-      <button (click)="continueShopping()">Continue Shopping</button>
+      <button (click)="continueShopping()" class="thickBtn">Continue Shopping</button>
     </div>
     <div *ngIf="cart.length > 0">
       <div class="cart-item" *ngFor="let product of cart">

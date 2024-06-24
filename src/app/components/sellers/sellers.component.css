@@ -12,3 +12,9 @@
     object-fit: cover;
   }
   
+  /* #map {
+    margin-top: 20px;
+    border: 2px solid red;
+    height: 100vh !important;
+    width: 100vw !important;
+  } */
