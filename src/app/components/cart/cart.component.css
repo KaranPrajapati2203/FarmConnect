@@ -1,38 +1,118 @@
 .cart-container {
-    padding: 20px;
-  }
-  
-  .cart-item {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #ccc;
-    padding: 10px 0;
-  }
-  
-  .cart-item-image {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-  }
-  
-  .cart-item-details {
-    flex-grow: 1;
-    margin-left: 20px;
-  }
-  
-  .quantity-controls {
-    display: flex;
-    align-items: center;
-  }
-  
-  .quantity-controls button {
-    width: 30px;
-    height: 30px;
-    margin: 0 5px;
-  }
-  
-  .cart-total {
-    margin-top: 20px;
-    text-align: right;
-  }
-  
+  padding: 2vw; /* Responsive padding using viewport width */
+  background-color: #f8f9fa; /* Light background to match navbar */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border-radius: 8px; /* Rounded corners for a softer look */
+  max-width: 80vw; /* Maximum width using viewport width */
+  margin: 0 auto; /* Center align */
+}
+
+.cart-container h1 {
+  color: #4CAF50; /* Green color for headings */
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5em; /* Responsive margin using em units */
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 1em 0; /* Responsive padding using em units */
+}
+
+.cart-item:last-child {
+  border-bottom: none; /* Remove border for the last item */
+}
+
+.cart-item-image {
+  width: 11vw; /* Responsive width using viewport width */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover;
+  border-radius: 8px; /* Rounded corners for images */
+}
+
+.cart-item-details {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  margin-left: 2vw; /* Responsive margin using viewport width */
+}
+
+.left-details {
+  max-width: 60%;
+}
+
+.right-details {
+  text-align: right;
+  max-width: 40%;
+}
+
+.cart-item-details h2 {
+  color: #388E3C; /* Darker green for product names */
+  margin: 0;
+}
+
+.cart-item-details p {
+  margin: 0.5em 0; /* Responsive margin using em units */
+  color: #333; /* Darker text color for descriptions */
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  margin: 1em 0; /* Responsive margin using em units */
+}
+
+.quantity-controls button {
+  width: 2em; /* Responsive width using em units */
+  height: 2em; /* Responsive height using em units */
+  margin: 0 0.5em; /* Responsive margin using em units */
+  border: 1px solid #4CAF50; /* Green border */
+  background-color: #ffffff; /* White background */
+  color: #4CAF50; /* Green text color */
+  border-radius: 4px; /* Rounded corners for buttons */
+  cursor: pointer;
+}
+
+.quantity-controls button:hover {
+  background-color: #4CAF50; /* Green background on hover */
+  color: #ffffff; /* White text on hover */
+}
+
+.cart-total {
+  margin-top: 2em; /* Responsive margin using em units */
+  text-align: right;
+  font-weight: bold;
+}
+
+.cart-total h2 {
+  color: #4CAF50; /* Green color for total price */
+}
+
+button {
+  background-color: #4CAF50; /* Green background */
+  color: #ffffff; /* White text */
+  border: none;
+  /* padding: 0.5em 1em;  */
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #388E3C; /* Darker green on hover */
+}
+
+button:disabled {
+  background-color: #ccc; /* Gray background for disabled button */
+  cursor: not-allowed;
+}
+
+.thickBtn {
+  background-color: #4CAF50; /* Green background */
+  color: #ffffff; /* White text */
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  cursor: pointer;
+}

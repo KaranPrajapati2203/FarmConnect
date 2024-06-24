@@ -6,12 +6,12 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, FormsModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
 export class CartComponent {
-  cart: any[] = [CommonModule,FormsModule];
+  cart: any[] = [];
 
   constructor(private router: Router) {
     // Initialize the cart with data from localStorage or an empty array

@@ -97,7 +97,7 @@ export class ProductsComponent {
       imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/36/Kyoho-grape.jpg'
     }
   ];
-  
+
 
   filteredProducts!: any[]; // Array to hold filtered products
   searchText: string = ''; // Variable to hold search input
@@ -169,8 +169,23 @@ export class ProductsComponent {
   }
 
   addToCart(product: any) {
-    console.log(`Added ${product.selectedQuantity} kg of ${product.name} to the cart.`);
-    // You can add logic to add the product to the cart here
-    product.selectedQuantity=0;
+    console.log(`Added ${product.selectedQuantity} ${product.measureType} of ${product.name} to the cart.`);
+    // Logic to add the product to the cart
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const existingProduct = cart.find((cartItem: any) => cartItem.name === product.name);
+
+    if (existingProduct) {
+      existingProduct.selectedQuantity += product.selectedQuantity;
+      existingProduct.selectedQuantity = parseFloat(existingProduct.selectedQuantity.toFixed(2));
+    } else {
+      cart.push({ ...product });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    console.log("item: " + localStorage.getItem('cart'));
+
+    // Reset the selected quantity to 0 after adding to the cart
+    product.selectedQuantity = 0;
   }
+
 }
