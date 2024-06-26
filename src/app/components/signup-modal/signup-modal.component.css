@@ -1,0 +1,25 @@
+/* signup-modal.component.css */
+.modal-header {
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .text-danger {
+    font-size: 0.875em;
+  }
+  
+  .btn-success {
+    background-color: #4CAF50; /* Green background */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .btn-success[disabled] {
+    background-color: #388E3C; /* Gray background for disabled button */
+    cursor: not-allowed;
+  }
+  
+  .btn-success:hover {
+    background-color: #388E3C; /* Darker green on hover */
+  }

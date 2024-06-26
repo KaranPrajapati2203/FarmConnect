@@ -29,7 +29,7 @@
           <button class="btn btn-outline-success ms-2" (click)="openLoginModal()">Login</button>
         </li>
         <li class="nav-item" *ngIf="!isLoggedIn">
-          <button class="btn btn-outline-success ms-2" (click)="openLoginModal()">Signup</button>
+          <button class="btn btn-outline-success ms-2" (click)="openSignupModal()">Signup</button>
         </li>
         <li class="nav-item" *ngIf="isLoggedIn">
           <button class="btn btn-outline-danger ms-2" (click)="logout()">Logout</button>
