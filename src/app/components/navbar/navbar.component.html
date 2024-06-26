@@ -20,7 +20,7 @@
         <li class="nav-item" *ngIf="isLoggedIn">
           <a class="nav-link" routerLink="/cart" routerLinkActive="active">My Cart</a>
         </li>
-        <li class="nav-item" *ngIf="isLoggedIn">
+        <li class="nav-item" *ngIf="isLoggedIn && role === '3'">
           <a class="nav-link" routerLink="/my-listing" routerLinkActive="active">My Listings</a>
         </li>
       </ul>
