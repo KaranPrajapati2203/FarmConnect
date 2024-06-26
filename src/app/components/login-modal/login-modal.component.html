@@ -14,7 +14,12 @@
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-control" id="password" formControlName="password" placeholder="Enter your password"/>
+      <div class="input-group">
+        <input type="{{ showPassword ? 'text' : 'password' }}" class="form-control" id="password" formControlName="password" placeholder="Enter your password"/>
+        <span class="input-group-text cursor-pointer" (click)="togglePasswordVisibility()">
+          <i [class]="showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+        </span>
+      </div>
       <div *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)" class="text-danger">
         <div *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</div>
         <div *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters long.</div>

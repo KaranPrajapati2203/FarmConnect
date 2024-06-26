@@ -12,3 +12,7 @@
   .navigationLink:active {
     color: #004085; /* Even darker blue when active */
   }
+
+  .cursor-pointer{
+    cursor: pointer;
+  }

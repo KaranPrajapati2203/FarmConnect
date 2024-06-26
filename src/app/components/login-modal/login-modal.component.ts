@@ -76,6 +76,8 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { SignupModalComponent } from '../signup-modal/signup-modal.component';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-login-modal',
@@ -87,6 +89,7 @@ import { SignupModalComponent } from '../signup-modal/signup-modal.component';
 export class LoginModalComponent {
   loginForm!: FormGroup;
   errorMessage!: string;
+  showPassword: boolean = false;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -94,7 +97,8 @@ export class LoginModalComponent {
     private authService: AuthService,
     private router: Router,
     private http: HttpClient,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastr: ToastrService // Inject ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -116,7 +120,7 @@ export class LoginModalComponent {
             this.authService.updateRole(response.token);
 
             this.activeModal.close('Login Successful');
-
+            this.toastr.success('Login Successful', 'Success'); // Display success message
             this.router.navigateByUrl('/products');
           } else {
             this.errorMessage = 'Invalid email or password.';
@@ -125,6 +129,7 @@ export class LoginModalComponent {
         (error: any) => {
           console.error('Login failed:', error);
           this.errorMessage = 'Login failed. Please try again.';
+          this.toastr.error('Login failed. Please try again.', 'Error'); // Display error message
         }
       );
     } else {
@@ -135,5 +140,9 @@ export class LoginModalComponent {
   openSignupModal() {
     this.activeModal.dismiss();
     this.modalService.open(SignupModalComponent);
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 }

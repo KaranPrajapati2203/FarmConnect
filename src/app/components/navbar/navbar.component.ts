@@ -63,7 +63,7 @@
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
 import { CommonModule } from '@angular/common';
 import { SignupModalComponent } from '../signup-modal/signup-modal.component';
@@ -81,6 +81,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
   role: string | null = null;
   private roleSubscription!: Subscription;
+  private modalReference!: NgbModalRef;
+
 
   constructor(private modalService: NgbModal, private router: Router, private authService: AuthService) { }
 
@@ -127,9 +129,24 @@ export class NavbarComponent implements OnInit, OnDestroy {
     );
   }
 
+  openLogoutModal(content: any) {
+    this.modalReference = this.modalService.open(content);
+    this.modalReference.result.then(
+      (result: any) => {
+        // console.log(`Closed with: ${result}`);
+      },
+      (reason: any) => {
+        console.log(`Dismissed ${reason}`);
+      }
+    );
+  }
+
   logout(): void {
     this.authService.logout();
     this.isLoggedIn = false;
+    if (this.modalReference) {
+      this.modalReference.close();
+    }
     this.router.navigateByUrl('');
   }
 }

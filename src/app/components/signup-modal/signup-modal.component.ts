@@ -14,6 +14,8 @@ import { LoginModalComponent } from '../login-modal/login-modal.component';
 })
 export class SignupModalComponent {
   signupForm!: FormGroup;
+  showPassword = false;
+  showConfirmPassword = false;
 
   constructor(public activeModal: NgbActiveModal, private fb: FormBuilder, private authService: AuthService, private modalService: NgbModal) { }
 
@@ -74,5 +76,11 @@ export class SignupModalComponent {
     this.activeModal.dismiss();
     this.modalService.open(LoginModalComponent);
   }
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
 
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
 }
