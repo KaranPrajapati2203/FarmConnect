@@ -69,12 +69,13 @@
 //----------------------------------------------------------------------------------------------------------------
 
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal,NgbModal  } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { SignupModalComponent } from '../signup-modal/signup-modal.component';
 
 @Component({
   selector: 'app-login-modal',
@@ -92,7 +93,8 @@ export class LoginModalComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -128,5 +130,10 @@ export class LoginModalComponent {
     } else {
       console.log('Login form is invalid');
     }
+  }
+
+  openSignupModal() {
+    this.activeModal.dismiss();
+    this.modalService.open(SignupModalComponent);
   }
 }

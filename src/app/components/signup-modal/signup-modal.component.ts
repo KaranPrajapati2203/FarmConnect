@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { LoginModalComponent } from '../login-modal/login-modal.component';
 
 @Component({
   selector: 'app-signup-modal',
@@ -14,7 +15,7 @@ import { AuthService } from '../../services/auth.service';
 export class SignupModalComponent {
   signupForm!: FormGroup;
 
-  constructor(public activeModal: NgbActiveModal, private fb: FormBuilder, private authService: AuthService) { }
+  constructor(public activeModal: NgbActiveModal, private fb: FormBuilder, private authService: AuthService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
@@ -58,14 +59,20 @@ export class SignupModalComponent {
       };
 
       this.authService.register(user).subscribe(
-        (response:any) => {
+        (response: any) => {
           console.log('Registration successful:', response);
           this.activeModal.close('Signup Successful');
         },
-        (error:any) => {
+        (error: any) => {
           console.error('Registration failed:', error);
         }
       );
     }
   }
+
+  openLoginModal() {
+    this.activeModal.dismiss();
+    this.modalService.open(LoginModalComponent);
+  }
+
 }
