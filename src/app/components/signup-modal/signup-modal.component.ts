@@ -4,6 +4,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-signup-modal',
@@ -17,7 +18,13 @@ export class SignupModalComponent {
   showPassword = false;
   showConfirmPassword = false;
 
-  constructor(public activeModal: NgbActiveModal, private fb: FormBuilder, private authService: AuthService, private modalService: NgbModal) { }
+  constructor(
+    public activeModal: NgbActiveModal, 
+    private fb: FormBuilder, 
+    private authService: AuthService, 
+    private modalService: NgbModal,
+    private toastr:ToastrService
+    ) { }
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
@@ -50,7 +57,6 @@ export class SignupModalComponent {
 
   onSubmit() {
     if (this.signupForm.valid) {
-      // debugger;
       const formValues = this.signupForm.value;
       const user = {
         firstname: formValues.firstname,
@@ -63,9 +69,11 @@ export class SignupModalComponent {
       this.authService.register(user).subscribe(
         (response: any) => {
           console.log('Registration successful:', response);
+          this.toastr.success('Registration Successful', 'Success')
           this.activeModal.close('Signup Successful');
         },
         (error: any) => {
+          this.toastr.error('Registration failed. Please try again.', 'Error');
           console.error('Registration failed:', error);
         }
       );

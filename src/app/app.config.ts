@@ -5,15 +5,15 @@ import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr'
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimations, BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),
     provideClientHydration(), provideHttpClient(withFetch()), provideToastr({
-      timeOut: 3000,
-      positionClass: 'toast-top-right',
+      timeOut: 2000,
       preventDuplicates: true,
+      closeButton: true,
     }), provideAnimations()
   ]
 };

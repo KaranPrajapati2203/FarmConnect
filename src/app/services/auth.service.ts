@@ -52,6 +52,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -61,7 +62,11 @@ export class AuthService {
   private roleSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   public role$ = this.roleSubject.asObservable();
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private toastr: ToastrService
+  ) {
     // Initialize the role from localStorage if available
     const role = this.getRoleFromLocalStorage();
     this.roleSubject.next(role);
@@ -78,13 +83,20 @@ export class AuthService {
   }
 
   logout() {
-    console.log("logout successful");
-    if (typeof window !== 'undefined' && window.localStorage) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('role');
-      this.roleSubject.next(null); // Update the role to null
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        this.roleSubject.next(null); // Update the role to null
+        this.toastr.success('Logout Successful', 'Success'); // Display success message
+        this.router.navigateByUrl('');
+        console.log("logout successful");
+      }
     }
-    this.router.navigateByUrl('');
+    catch (error) {
+      console.error('Logout failed:', error);
+      this.toastr.error('Logout failed. Please try again.', 'Error');
+    }
   }
 
   getToken(): string | null {
