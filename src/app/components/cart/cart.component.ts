@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cart',
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
 export class CartComponent {
   cart: any[] = [];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private toastr: ToastrService) {
     // Initialize the cart with data from localStorage or an empty array
     this.cart = JSON.parse(localStorage.getItem('cart') || '[]');
   }
@@ -50,8 +51,14 @@ export class CartComponent {
   }
 
   checkout() {
-    console.log('Proceed to checkout');
-    // Implement checkout logic here
+    if (this.cart.length > 0) {
+      const totalAmount = this.getTotalPrice();
+      this.toastr.success(`Checkout successful! Total amount: ₹${totalAmount}`, 'Success');
+      console.log('Proceed to checkout');
+      // Implement checkout logic here
+    } else {
+      this.toastr.error('Your cart is empty!', 'Error');
+    }
   }
 
   continueShopping() {

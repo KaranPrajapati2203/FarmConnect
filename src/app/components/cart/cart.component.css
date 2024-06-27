@@ -27,7 +27,8 @@
 
 .cart-item-image {
   width: 11vw; /* Responsive width using viewport width */
-  height: auto; /* Maintain aspect ratio */
+  /* height: auto;  */
+  height: 19vh; /* Maintain aspect ratio */
   object-fit: cover;
   border-radius: 8px; /* Rounded corners for images */
 }

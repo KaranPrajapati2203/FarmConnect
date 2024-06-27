@@ -6,13 +6,15 @@ import { SellersComponent } from './components/sellers/sellers.component';
 import { CartComponent } from './components/cart/cart.component';
 import { MyListingComponent } from './components/my-listing/my-listing.component';
 import { MapComponent } from './components/map/map.component';
+import { authGuard } from '../app/guards/auth.guard'; // Adjust the path as necessary
+
 
 export const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "", component: HomeComponent },
-    { path: "products", component: ProductsComponent },
-    { path: "sellers", component: SellersComponent },
-    { path: "cart", component: CartComponent },
-    { path: "my-listing", component: MyListingComponent },
-    { path: 'market-location/:id', component: MapComponent }
+    { path: "products", component: ProductsComponent, canActivate: [authGuard] },
+    { path: "sellers", component: SellersComponent, canActivate: [authGuard] },
+    { path: "cart", component: CartComponent, canActivate: [authGuard] },
+    { path: "my-listing", component: MyListingComponent, canActivate: [authGuard] },
+    { path: 'market-location/:id', component: MapComponent, canActivate: [authGuard] }
 ];

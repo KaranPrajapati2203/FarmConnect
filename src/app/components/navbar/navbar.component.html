@@ -23,6 +23,9 @@
         <li class="nav-item" *ngIf="isLoggedIn && role === '3'">
           <a class="nav-link" routerLink="/my-listing" routerLinkActive="active">My Listings</a>
         </li>
+        <li class="nav-item" *ngIf="isLoggedIn && role === '1'">
+          <a class="nav-link" routerLink="/admin-panel" routerLinkActive="active">Admin panel</a>
+        </li>
       </ul>
       <ul class="navbar-nav">
         <li class="nav-item" *ngIf="!isLoggedIn">
