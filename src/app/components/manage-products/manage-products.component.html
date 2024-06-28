@@ -1,0 +1,161 @@
+<div class="container mt-4">
+    <!-- <h2>Manage Products</h2> -->
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Add New Product</h5>
+        </div>
+        <div class="card-body">
+            <form #productForm="ngForm" (ngSubmit)="addProduct(productForm)">
+                <div class="form-group mb-3">
+                    <label for="productName">Product Name</label>
+                    <input type="text" class="form-control" id="productName" [(ngModel)]="newProduct.name" name="name" required #name="ngModel">
+                    <div *ngIf="name.invalid && name.touched" class="invalid-feedback d-block">
+                        Product name is required.
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="productDescription">Product Description</label>
+                    <textarea class="form-control" id="productDescription" [(ngModel)]="newProduct.description" name="description" required #description="ngModel"></textarea>
+                    <div *ngIf="description.invalid && description.touched" class="invalid-feedback d-block">
+                        Product description is required.
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="productPrice">Product Price</label>
+                    <input type="number" class="form-control" id="productPrice" [(ngModel)]="newProduct.price" name="price" required #price="ngModel" min="1">
+                    <div *ngIf="price.invalid && price.touched" class="invalid-feedback d-block">
+                        Product price must be greater than zero.
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="productType">Product Type</label>
+                    <select class="form-control" id="productType" [(ngModel)]="newProduct.type" name="type" required #type="ngModel">
+                        <option value="" disabled selected>Select type</option>
+                        <option value="fruits">Fruits</option>
+                        <option value="vegetables">Vegetables</option>
+                        <option value="dairy">Dairy</option>
+                    </select>
+                    <div *ngIf="type.invalid && type.touched" class="invalid-feedback d-block">
+                        Product type is required.
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="measureType">Measurement Type</label>
+                    <select class="form-control" id="measureType" [(ngModel)]="newProduct.measureType" name="measureType" required #measureType="ngModel">
+                        <option value="" disabled selected>Select measure type</option>
+                        <option *ngFor="let measure of measureTypes" [value]="measure">{{ measure }}</option>
+                    </select>
+                    <div *ngIf="measureType.invalid && measureType.touched" class="invalid-feedback d-block">
+                        Measurement type is required.
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="productImage">Product Image URL</label>
+                    <input type="text" class="form-control" id="productImage" [(ngModel)]="newProduct.imageUrl" name="imageUrl" required #imageUrl="ngModel">
+                    <div *ngIf="imageUrl.invalid && imageUrl.touched" class="invalid-feedback d-block">
+                        Product image URL is required.
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success" [disabled]="productForm.invalid">Add Product</button>
+            </form>
+        </div>
+    </div>
+
+    <div *ngIf="editProduct" class="card mb-4">
+        <div class="card-header">
+            <h5>Edit Product</h5>
+        </div>
+        <div class="card-body">
+            <form #editForm="ngForm" (ngSubmit)="saveProduct(editForm)">
+                <div class="form-group mb-3">
+                    <label for="editProductName">Product Name</label>
+                    <input type="text" class="form-control" id="editProductName" [(ngModel)]="editProduct.name" name="name" required #editName="ngModel">
+                    <div *ngIf="editName.invalid && editName.touched" class="invalid-feedback d-block">
+                        Product name is required.
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="editProductDescription">Product Description</label>
+                    <textarea class="form-control" id="editProductDescription" [(ngModel)]="editProduct.description" name="description" required #editDescription="ngModel"></textarea>
+                    <div *ngIf="editDescription.invalid && editDescription.touched" class="invalid-feedback d-block">
+                        Product description is required.
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="editProductPrice">Product Price</label>
+                    <input type="number" class="form-control" id="editProductPrice" [(ngModel)]="editProduct.price" name="price" min="1" required #editPrice="ngModel">
+                    <div *ngIf="editPrice.invalid && editPrice.touched" class="invalid-feedback d-block">
+                        Product price must be greater than zero.
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="editProductType">Product Type</label>
+                    <select class="form-control" id="editProductType" [(ngModel)]="editProduct.type" name="type" required #editType="ngModel">
+                        <option value="fruits">Fruits</option>
+                        <option value="vegetables">Vegetables</option>
+                        <option value="dairy">Dairy</option>
+                    </select>
+                    <div *ngIf="editType.invalid && editType.touched" class="invalid-feedback d-block">
+                        Product type is required.
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="editMeasureType">Measurement Type</label>
+                    <select class="form-control" id="editMeasureType" [(ngModel)]="editProduct.measureType" name="measureType" required #editMeasureType="ngModel">
+                        <option *ngFor="let measure of measureTypes" [value]="measure">{{ measure }}</option>
+                    </select>
+                    <div *ngIf="editMeasureType.invalid && editMeasureType.touched" class="invalid-feedback d-block">
+                        Measurement type is required.
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="editProductImage">Product Image URL</label>
+                    <input type="text" class="form-control" id="editProductImage" [(ngModel)]="editProduct.imageUrl" name="imageUrl" required #editImageUrl="ngModel">
+                    <div *ngIf="editImageUrl.invalid && editImageUrl.touched" class="invalid-feedback d-block">
+                        Product image URL is required.
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success me-1" [disabled]="editForm.invalid">Save Changes</button>
+                <button type="button" class="btn btn-danger" (click)="cancelEdit()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5>Product List</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Type</th>
+                            <th>Measurement</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of products">
+                            <td><img [src]="product.imageUrl" alt="{{product.name}}" class="img-fluid" width="100" height="100"></td>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.description }}</td>
+                            <td>{{ product.price }}</td>
+                            <td>{{ product.type }}</td>
+                            <td>{{ product.measureType }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-success me-1" (click)="editProductDetails(product)">Edit</button>
+                                <button class="btn btn-sm btn-danger" (click)="deleteProduct(product.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,106 @@
+.container {
+    margin-top: 20px;
+  }
+  
+  .input-group-append {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .input-group-append select {
+    width: 25vw; /* Adjust as needed */
+  }
+  
+  .input-group {
+    display: flex;
+    align-items: center; /* Adjusted for vertical alignment */
+    margin-bottom: 1.5rem;
+  }
+  
+  .input-group select {
+    flex: 1;
+  }
+  
+  .input-group button {
+    flex: 1;
+    cursor: pointer; /* Ensure buttons have pointer cursor */
+  }
+  
+  .form-check-input {
+    margin-top: 0.3rem;
+    margin-right: 0.5rem;
+    cursor: pointer; /* Add pointer cursor for better UX */
+  }
+  
+  .pointer {
+    cursor: pointer; /* Ensure all pointer elements have pointer cursor */
+  }
+  
+  .form-check-label {
+    margin-bottom: 0;
+  }
+  
+  .input-group-text {
+    background-color: #fff;
+  }
+  
+  .btn-success {
+    margin-top: 1rem;
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .img-thumbnail {
+    width: 7vw;
+    height: 4vw; /* Adjusted height for square aspect ratio */
+    object-fit: cover;
+  }
+  
+  .card {
+    transition: transform 0.2s;
+    cursor: pointer;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+  }
+  
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .card-title {
+    margin-bottom: 0.5rem;
+  }
+  
+  .card-text {
+    margin-top: auto;
+  }
+  
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 160px; /* Adjust width as needed */
+    overflow: hidden;
+  }
+  
+  .quantity-display {
+    color: #495057;
+    padding: 6px 12px;
+    font-size: 1rem;
+    flex-grow: 1;
+    text-align: center;
+    white-space: nowrap;
+  }
+  

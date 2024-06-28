@@ -16,16 +16,14 @@ interface Product {
   quantity?: number;
   totalPrice?: number;
 }
-
-
 @Component({
-  selector: 'app-my-listing',
+  selector: 'app-list-products',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './my-listing.component.html',
-  styleUrl: './my-listing.component.css'
+  templateUrl: './list-products.component.html',
+  styleUrl: './list-products.component.css'
 })
-export class MyListingComponent {
+export class ListProductsComponent {
   products: Product[] = [
     {
       id: 1,
@@ -119,6 +117,7 @@ export class MyListingComponent {
     }
   ];
   constructor(private toastr: ToastrService) { }
+
   filteredProducts: Product[] = [];
   selectedType: string = '';
   searchText: string = '';
@@ -166,32 +165,24 @@ export class MyListingComponent {
     }
   }
 
-  incrementQuantity(product: Product) {
+  onQuantityChange(product: Product, event: Event) {
+    const input = event.target as HTMLInputElement;
+    let value = parseInt(input.value, 10);
     if (product.selected) {
-      if (!product.quantity) {
-        product.quantity = 0;
+      if (!isNaN(value) && value >= 1 && value <= 50) {
+        product.quantity = value;
+      } else {
+        this.toastr.warning('Quantity must be between 1 and 50');
+        // value = Math.max(1, Math.min(value, 50));
+        value = 0;
+        product.quantity = value;
+        input.value = value.toString();
       }
-      product.quantity += 1; // Adjust increment value as needed
       this.updateTotalPrice(product);
       this.validateQuantities();
     } else {
       this.toastr.warning('Select that product first');
+      input.value = product.quantity?.toString() || '0'; // Revert to previous quantity if not selected
     }
   }
-
-  decrementQuantity(product: Product) {
-    if (product.selected) {
-      if (!product.quantity) {
-        product.quantity = 0;
-      }
-      if (product.quantity > 0) {
-        product.quantity -= 1; // Adjust decrement value as needed
-        this.updateTotalPrice(product);
-        this.validateQuantities();
-      }
-    } else {
-      this.toastr.warning('Select that product first');
-    }
-  }
-
 }

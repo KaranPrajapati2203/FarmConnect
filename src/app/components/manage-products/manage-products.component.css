@@ -1,0 +1,47 @@
+/* Styles for listings component */
+
+.container {
+    margin-top: 20px;
+  }
+  
+  .card {
+    margin-bottom: 20px;
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  table img {
+    max-width: 50px;
+    max-height: 50px;
+    object-fit: cover;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  .invalid-feedback {
+    display: block;
+  }
+  
+  @media (max-width: 767px) {
+    .form-group {
+        margin-bottom: 10px;
+    }
+  
+    .card-body form {
+        display: flex;
+        flex-direction: column;
+    }
+  
+    .card-body form .form-group {
+        margin-bottom: 15px;
+    }
+  
+    .card-body form .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+  }
+  

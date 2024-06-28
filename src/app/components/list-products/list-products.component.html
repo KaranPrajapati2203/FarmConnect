@@ -1,10 +1,7 @@
 <div class="container mt-4">
-    <!-- <h1 class="mb-4">Supply Products</h1> -->
-  
     <!-- Search and filter bar -->
     <div class="input-group mb-3">
-      <input type="text" class="form-control flex-grow-1" placeholder="Search products..." [(ngModel)]="searchText"
-        (input)="filterProducts()">
+      <input type="text" class="form-control flex-grow-1" placeholder="Search products..." [(ngModel)]="searchText" (input)="filterProducts()">
       <div class="input-group-append w-25 ms-1">
         <select class="form-control" [(ngModel)]="selectedType" (change)="filterProducts()">
           <option value="">All Types</option>
@@ -22,7 +19,7 @@
           <th scope="col">Image</th>
           <th scope="col">Name</th>
           <th scope="col">Price per Unit</th>
-          <th scope="col">Quantity</th>
+          <th scope="col">Quantity (Max 50)</th>
           <th scope="col">Total Price</th>
           <th scope="col" class="text-center">Select</th>
         </tr>
@@ -34,23 +31,12 @@
           <td>₹{{ product.price }} per {{ product.measureType }}</td>
           <td>
             <div class="input-group">
-                <div class="quantity-controls mb-2">
-                  <button class="btn btn-outline-success decrement-btn" (click)="decrementQuantity(product)">
-                    -
-                  </button>
-                  <div class="quantity-display">
-                    {{ product.quantity }} {{ product.measureType }}
-                  </div>
-                  <button class="btn btn-outline-success increment-btn" (click)="incrementQuantity(product)">
-                    +
-                  </button>
-                </div>
-              </div>
+              <input type="number" class="form-control" placeholder="Enter quantity" [(ngModel)]="product.quantity" (input)="onQuantityChange(product, $event)" [disabled]="!product.selected" min="1" max="50">
+            </div>
           </td>
           <td>₹{{ product.totalPrice ?? 0 }}</td>
           <td class="text-center">
-            <input class="form-check-input pointer" type="checkbox" id="selectProduct{{ product.id }}"
-              [(ngModel)]="product.selected" (change)="handleProductSelectionChange(product)">
+            <input class="form-check-input pointer" type="checkbox" id="selectProduct{{ product.id }}" [(ngModel)]="product.selected" (change)="handleProductSelectionChange(product)">
           </td>
         </tr>
       </tbody>
@@ -58,8 +44,7 @@
   
     <!-- Restock button -->
     <div class="text-end">
-      <button class="btn btn-success mt-3" [disabled]="!isRestockEnabled" (click)="addToRestockList()">Confirm
-        Listing</button>
+      <button class="btn btn-success mt-3" [disabled]="!isRestockEnabled" (click)="addToRestockList()">Confirm Listing</button>
     </div>
   </div>
   

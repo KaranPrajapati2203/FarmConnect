@@ -11,20 +11,23 @@
         <li class="nav-item" *ngIf="isLoggedIn">
           <a class="nav-link" routerLink="" routerLinkActive="active">Home</a>
         </li>
-        <li class="nav-item" *ngIf="isLoggedIn">
+        <li class="nav-item" *ngIf="isLoggedIn && (role === '2' || role === '1')">
           <a class="nav-link" routerLink="/products" routerLinkActive="active">Products</a>
         </li>
         <li class="nav-item" *ngIf="isLoggedIn">
-          <a class="nav-link" routerLink="/sellers" routerLinkActive="active">Sellers</a>
+          <a class="nav-link" routerLink="/sellers" routerLinkActive="active">Market Places</a>
         </li>
-        <li class="nav-item" *ngIf="isLoggedIn">
+        <li class="nav-item" *ngIf="isLoggedIn && (role === '2' || role === '1')">
           <a class="nav-link" routerLink="/cart" routerLinkActive="active">My Cart</a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn && role === '3'">
+          <a class="nav-link" routerLink="/list-products" routerLinkActive="active">List Products</a>
         </li>
         <li class="nav-item" *ngIf="isLoggedIn && role === '3'">
           <a class="nav-link" routerLink="/my-listing" routerLinkActive="active">My Listings</a>
         </li>
         <li class="nav-item" *ngIf="isLoggedIn && role === '1'">
-          <a class="nav-link" routerLink="/admin-panel" routerLinkActive="active">Admin panel</a>
+          <a class="nav-link" routerLink="/manage-products" routerLinkActive="active">Manage Products</a>
         </li>
       </ul>
       <ul class="navbar-nav">
