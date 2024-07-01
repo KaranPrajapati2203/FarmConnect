@@ -11,7 +11,44 @@
     height: 200px;
     object-fit: cover;
   }
+
+  /* extra */
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
   
+  .card-title {
+    margin-bottom: 0.5rem;
+  }
+  
+  .card-text {
+    margin-top: auto; /* Ensures the description is at the bottom */
+  }
+  
+  .input-group-append {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .input-group-append button {
+    width: 100%;
+  }
+  
+  .input-group {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .input-group select {
+    flex: 1;
+  }
+  
+  .input-group button {
+    flex: 1;
+  }
   /* #map {
     margin-top: 20px;
     border: 2px solid red;

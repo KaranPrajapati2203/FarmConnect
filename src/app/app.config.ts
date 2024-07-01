@@ -14,6 +14,7 @@ export const appConfig: ApplicationConfig = {
       timeOut: 2000,
       preventDuplicates: true,
       closeButton: true,
+      enableHtml:true
     }), provideAnimations()
   ]
 };

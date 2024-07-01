@@ -1,33 +1,32 @@
 <div class="cart-container">
-    <h1>Your Cart</h1>
-    <div *ngIf="cart.length === 0">
-      <p>Your cart is empty.</p>
-      <button (click)="continueShopping()" class="thickBtn">Continue Shopping</button>
-    </div>
-    <div *ngIf="cart.length > 0">
-      <div class="cart-item" *ngFor="let product of cart">
-        <img [src]="product.imageUrl" alt="{{ product.name }}" class="cart-item-image">
-        <div class="cart-item-details">
-          <div class="left-details">
-            <h2>{{ product.name }}</h2>
-            <p>{{ product.description }}</p>
+  <h1>Your Cart</h1>
+  <div *ngIf="cart.length === 0">
+    <p>Your cart is empty.</p>
+    <button (click)="continueShopping()" class="thickBtn">Continue Shopping</button>
+  </div>
+  <div *ngIf="cart.length > 0">
+    <div class="cart-item" *ngFor="let product of cart">
+      <img [src]="product.productImage" alt="{{ product.productName }}" class="cart-item-image">
+      <div class="cart-item-details">
+        <div class="left-details">
+          <h2>{{ product.productName }}</h2>
+          <p>{{ product.productDescription }}</p>
+        </div>
+        <div class="right-details">
+          <p>Price: ₹{{ product.productPrice }} per {{ product.productMeasureType }}</p>
+          <div class="quantity-controls">
+            <button (click)="decreaseQuantity(product)">-</button>
+            <span>{{ product.quantity }} {{ product.productMeasureType }}</span>
+            <button (click)="increaseQuantity(product)">+</button>
           </div>
-          <div class="right-details">
-            <p>Price: ₹{{ product.price }} per {{ product.measureType }}</p>
-            <div class="quantity-controls">
-              <button (click)="decreaseQuantity(product)">-</button>
-              <span>{{ product.selectedQuantity }} {{ product.measureType }}</span>
-              <button (click)="increaseQuantity(product)">+</button>
-            </div>
-            <p>Total: ₹{{ (product.price * product.selectedQuantity).toFixed(2) }}</p>
-            <button (click)="removeFromCart(product)" class="thickBtn">Remove</button>
-          </div>
+          <p>Total: ₹{{ (product.productPrice * product.quantity).toFixed(2) }}</p>
+          <button (click)="removeFromCart(product)" class="thickBtn">Remove</button>
         </div>
       </div>
-      <div class="cart-total">
-        <h2>Total Price: ₹{{ getTotalPrice() }}</h2>
-        <button (click)="checkout()" class="thickBtn">Proceed to Checkout</button>
-      </div>
+    </div>
+    <div class="cart-total">
+      <h2>Total Price: ₹{{ getTotalPrice() }}</h2>
+      <button (click)="checkout()" class="thickBtn">Proceed to Checkout</button>
     </div>
   </div>
-  
+</div>

@@ -20,5 +20,6 @@ export const routes: Routes = [
     { path: "my-listing", component: MyListingComponent, canActivate: [authGuard] },
     { path: 'market-location/:id', component: MapComponent, canActivate: [authGuard] },
     { path: 'manage-products', component: ManageProductsComponent, canActivate: [authGuard] },
-    { path: 'list-products', component: ListProductsComponent, canActivate: [authGuard] }
+    { path: 'list-products', component: ListProductsComponent, canActivate: [authGuard] },
+    { path: 'show-all-markets', component: MapComponent, canActivate: [authGuard] }
 ];

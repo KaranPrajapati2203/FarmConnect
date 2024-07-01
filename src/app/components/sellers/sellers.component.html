@@ -5,22 +5,23 @@
 
   <!-- Search bar for Sellers -->
   <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Search sellers..." [(ngModel)]="searchText"
-      (input)="filterSellers()">
+    <input type="text" class="form-control flex-grow-1" placeholder="Search sellers..." [(ngModel)]="searchText" (input)="filterSellers()">
+    <div class="input-group-append w-25 ms-1">
+      <button class="btn btn-success" (click)="showAllMarketLocations()">See all available market locations</button>
+    </div>
   </div>
 
   <!-- Seller list -->
   <div class="row">
     <div class="col-md-4 mb-4" *ngFor="let seller of filteredSellers">
       <div class="card h-100">
-        <img [src]="seller.imageUrl" class="card-img-top" alt="{{ seller.name }}">
+        <img [src]="seller.marketImageUrl" class="card-img-top" alt="{{ seller.marketName }}">
         <div class="card-body">
-          <h5 class="card-title">{{ seller.name }}</h5>
-          <p class="card-text">{{ seller.description }}</p>
-          <!-- <p class="card-text"><strong>Location: {{ seller.location }}</strong></p> -->
+          <h5 class="card-title">{{ seller.marketName }}</h5>
+          <p class="card-text">{{ seller.marketDescription }}</p>
           <div class="d-flex justify-content-between align-items-center">
-            <p class="card-text mb-0"><strong>Location: {{ seller.location }}</strong></p>
-            <button class="btn btn-outline-success" (click)="viewOnMap(seller.id)">View on Map</button>
+            <p class="card-text mb-0"><strong>Location: {{ seller.marketAddress }}</strong></p>
+            <button class="btn btn-outline-success" (click)="viewOnMap(seller.marketId)">View on Map</button>
           </div>
         </div>
       </div>

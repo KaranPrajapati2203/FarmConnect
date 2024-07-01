@@ -37,6 +37,7 @@ export class AuthService {
       if (typeof window !== 'undefined' && window.localStorage) {
         localStorage.removeItem('token');
         localStorage.removeItem('role');
+        localStorage.removeItem('userid');
         this.roleSubject.next(null); // Update the role to null
         this.toastr.success('Logout Successful', 'Success'); // Display success message
         this.router.navigateByUrl('');
@@ -78,8 +79,10 @@ export class AuthService {
     const decodedToken = this.decodeToken(token);
     if (decodedToken && decodedToken.RoleId) {
       const role = decodedToken.RoleId;
+      const userid = decodedToken.UserId;
       if (typeof window !== 'undefined' && window.localStorage) {
         localStorage.setItem('role', role);
+        localStorage.setItem('userid', userid);
       }
       this.roleSubject.next(role);
     }
