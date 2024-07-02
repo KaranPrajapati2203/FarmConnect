@@ -83,7 +83,7 @@ export class SellersComponent {
     this.marketService.getMarkets()
       .subscribe(
         (data: any) => {
-          console.log("market data: " + JSON.stringify(data));
+          // console.log("market data: " + JSON.stringify(data));
           this.sellers = data;
           this.filteredSellers = this.sellers; // Initialize filteredSellers with all sellers
         },
@@ -107,7 +107,7 @@ export class SellersComponent {
   }
 
   showAllMarketLocations() {
-    console.log("maret locations clicked");
+    console.log("market locations clicked");
     this.router.navigate(['/show-all-markets']);
 
   }
