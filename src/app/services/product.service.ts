@@ -17,4 +17,8 @@ export class ProductService {
   addProductListing(request: any) {
     return this.http.post<any>(`${this.apiUrl}/listings`, request);
   }
+
+  getProductListings(userid:any) {
+    return this.http.get<any[]>(`${this.apiUrl}/user/${userid}/listings`); 
+  }
 }

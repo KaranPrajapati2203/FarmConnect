@@ -1,5 +1,29 @@
 /* layout.component.css */
 .main-content {
-    padding-top: 50px; /* Adjust this value based on the height of your navbar */
+    padding-top: 50px; 
   }
   
+  /* .router-outlet {
+    flex: 1; 
+    overflow-y: auto; 
+    padding: 20px; 
+  }
+  
+  .app-footer {
+    background-color: #f8f9fa; 
+    padding: 20px; 
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  @media (max-width: 768px) {
+    .main-content {
+        padding-top: 70px; 
+    }
+  
+    .app-footer {
+        position: relative; 
+    }
+  } */

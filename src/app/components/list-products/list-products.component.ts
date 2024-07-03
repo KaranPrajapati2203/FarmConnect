@@ -133,6 +133,7 @@ export class ListProductsComponent {
   fetchProducts() {
     this.productService.getProducts().subscribe(
       (data: any[]) => {
+        // console.log('getting data: '+JSON.stringify(data));
         this.products = data.map(item => ({
           id: item.productId,
           name: item.productName,
@@ -181,7 +182,8 @@ export class ListProductsComponent {
     const listings = restockProducts.map(product => ({
       sellerId: userId,
       productId: product.id,
-      listingQuantity: product.quantity
+      listingQuantity: product.quantity,
+      productMeasureType: product.measureType
     }));
     // console.log("inside restock: " + JSON.stringify(listings));
     listings.forEach(listing => {
@@ -216,7 +218,7 @@ export class ListProductsComponent {
 
   onQuantityChange(product: Product, event: Event) {
     const input = event.target as HTMLInputElement;
-    let value = parseInt(input.value, 10);
+    let value = parseFloat(input.value);
     if (product.selected) {
       if (!isNaN(value) && value >= 1 && value <= 50) {
         product.quantity = value;

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { ToastrService } from 'ngx-toastr';
+import { PRODUCT_TYPE_MAP } from '../../interfaces/product-type-map';
 
 
 @Component({
@@ -113,28 +114,39 @@ export class ProductsComponent {
   constructor(private router: Router, private productService: ProductService, private cartService: CartService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    // this.productService.getProducts().subscribe((data: any) => {
+    //   // console.log("data: " + JSON.stringify(data));
+    //   this.products = data;
+    //   this.filterProducts();
+    // });
     this.productService.getProducts().subscribe((data: any) => {
-      // console.log("data: " + JSON.stringify(data));
-      this.products = data;
+      this.products = data.map((item: any) => ({
+        productId: item.productId,
+        productName: item.productName,
+        productDescription: item.productDescription,
+        productPrice: item.productPrice,
+        productType: PRODUCT_TYPE_MAP[item.productTypeId] || 'unknown',
+        productMeasureType: item.productMeasureType,
+        productImage: item.productImage,
+        selectedQuantity: 0
+      }));
       this.filterProducts();
     });
   }
 
   filterProducts() {
-    // Filter products based on searchText and selectedType
     if (this.searchText.trim() !== '') {
       this.filteredProducts = this.products.filter(product => {
-        const matchesSearch = product.name.toLowerCase().includes(this.searchText.toLowerCase());
-        const matchesType = this.selectedType ? product.type === this.selectedType : true;
+        const matchesSearch = product.productName.toLowerCase().includes(this.searchText.toLowerCase());
+        const matchesType = this.selectedType ? product.productType === this.selectedType : true;
         return matchesSearch && matchesType;
       });
     } else {
-      // If search input is empty, only apply type filter
       this.filteredProducts = this.products.filter(product => {
-        return this.selectedType ? product.type === this.selectedType : true;
+        return this.selectedType ? product.productType === this.selectedType : true;
       });
     }
-    this.resetDisplayProducts()
+    this.resetDisplayProducts();
   }
 
   resetDisplayProducts() {

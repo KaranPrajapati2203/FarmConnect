@@ -9,6 +9,7 @@ import { MapComponent } from './components/map/map.component';
 import { authGuard } from '../app/guards/auth.guard'; // Adjust the path as necessary
 import { ManageProductsComponent } from './components/manage-products/manage-products.component';
 import { ListProductsComponent } from './components/list-products/list-products.component';
+import { OrderHistoryComponent } from './components/order-history/order-history.component';
 
 
 export const routes: Routes = [
@@ -21,5 +22,6 @@ export const routes: Routes = [
     { path: 'market-location/:id', component: MapComponent, canActivate: [authGuard] },
     { path: 'manage-products', component: ManageProductsComponent, canActivate: [authGuard] },
     { path: 'list-products', component: ListProductsComponent, canActivate: [authGuard] },
-    { path: 'show-all-markets', component: MapComponent, canActivate: [authGuard] }
+    { path: 'show-all-markets', component: MapComponent, canActivate: [authGuard] },
+    { path: 'order-history', component: OrderHistoryComponent, canActivate: [authGuard] }
 ];

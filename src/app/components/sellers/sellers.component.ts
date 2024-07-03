@@ -98,7 +98,8 @@ export class SellersComponent {
     // Filter sellers based on searchText
     if (this.searchText.trim() !== '') {
       this.filteredSellers = this.sellers.filter(seller =>
-        seller.marketName.toLowerCase().includes(this.searchText.toLowerCase())
+        seller.marketName.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        seller.marketAddress.toLowerCase().includes(this.searchText.toLowerCase())
       );
     } else {
       // If search input is empty, show all sellers

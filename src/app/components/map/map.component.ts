@@ -2,6 +2,7 @@ import { Component, AfterViewInit, Inject, PLATFORM_ID, OnInit } from '@angular/
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MarketService } from '../../services/market.service';
+// import L from 'leaflet';
 
 
 @Component({
@@ -17,6 +18,8 @@ export class MapComponent implements OnInit, AfterViewInit {
   sellers: any[] = [];
   seller: any; // Variable to hold the selected seller details
   showAllMarkets: boolean = false;
+  private currentLocationMarker: any;
+  private routingControl: any;
 
   // sellers = [
   //   {
@@ -122,6 +125,8 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
   private async loadLeaflet() {
     const L = await import('leaflet');
+    await import('leaflet-routing-machine');
+
     this.initMap(L);
   }
 
@@ -138,13 +143,18 @@ export class MapComponent implements OnInit, AfterViewInit {
     if (!L) {
       L = (window as any).L;
     }
+    this.map = L.map('map').setView([22.2587, 71.1924], 8); // Initial center of India for all markets
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(this.map);
 
     if (this.showAllMarkets) {
-      this.map = L.map('map').setView([22.2587, 71.1924], 8); // Center of India for all markets
+      // this.map = L.map('map').setView([22.2587, 71.1924], 8); 
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(this.map);
+      // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      // }).addTo(this.map);
 
       this.sellers.forEach(seller => {
         L.marker([seller.marketLatitude, seller.marketLongitude]).addTo(this.map)
@@ -152,15 +162,57 @@ export class MapComponent implements OnInit, AfterViewInit {
           .openPopup();
       });
     } else {
-      this.map = L.map('map').setView([this.seller.marketLatitude, this.seller.marketLongitude], 10);
+      // this.map = L.map('map').setView([this.seller.marketLatitude, this.seller.marketLongitude], 10);
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(this.map);
+      // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      // }).addTo(this.map);
 
       L.marker([this.seller.marketLatitude, this.seller.marketLongitude]).addTo(this.map)
         .bindPopup(`<b>${this.seller.marketName}</b><br>${this.seller.marketAddress}`)
         .openPopup();
     }
+    this.showCurrentLocation(L);
+
+  }
+
+  private showCurrentLocation(L: any): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const currentLatLng: [number, number] = [position.coords.latitude, position.coords.longitude];
+        
+        if (this.currentLocationMarker) {
+          this.map.removeLayer(this.currentLocationMarker);
+        }
+
+        this.currentLocationMarker = L.marker(currentLatLng).addTo(this.map)
+          .bindPopup('<b>You are here</b>')
+          .openPopup();
+
+        this.map.setView(currentLatLng, 13);
+
+        if (this.seller) {
+          this.showRoute(L, currentLatLng, [this.seller.marketLatitude, this.seller.marketLongitude]);
+        }
+      }, error => {
+        console.error('Error getting current location:', error);
+      });
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+    }
+  }
+
+  private showRoute(L: any, start: [number, number], end: [number, number]): void {
+    if (this.routingControl) {
+      this.map.removeControl(this.routingControl);
+    }
+
+    this.routingControl = L.Routing.control({
+      waypoints: [
+        L.latLng(start[0], start[1]),
+        L.latLng(end[0], end[1])
+      ],
+      routeWhileDragging: true
+    }).addTo(this.map);
   }
 }

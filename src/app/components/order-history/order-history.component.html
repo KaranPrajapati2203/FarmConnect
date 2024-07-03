@@ -1,0 +1,25 @@
+<div class="order-history-container">
+    <h3>Your Order History</h3>
+    <div *ngIf="orders.length === 0">
+      <p>No orders found.</p>
+      <button routerLink="/products" class="thickBtn">Continue Shopping</button>
+    </div>
+    <div *ngIf="orders.length > 0">
+      <div class="order-item" *ngFor="let order of orders">
+        <div class="order-item-details">
+          <div class="left-details">
+            <h2>Order #{{ order.orderId }}</h2>
+            <p>Placed on: {{ order.orderDate | date: 'medium' }}</p>
+            <div class="order-summary">
+                <p>Total items: {{ order.totalItems }}</p>
+                <p>Total amount: ₹{{ order.totalAmount.toFixed(2) }}</p>
+              </div>
+          </div>
+          <div class="right-details">
+            <button (click)="viewOrderDetails(order)" class="thickBtn">View Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
