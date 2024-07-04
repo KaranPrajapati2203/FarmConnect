@@ -9,7 +9,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item" *ngIf="isLoggedIn">
-          <a class="nav-link" routerLink="" routerLinkActive="active">Home</a>
+          <a class="nav-link" routerLink="">Home</a>
         </li>
         <li class="nav-item" *ngIf="isLoggedIn && (role === '2' || role === '1')">
           <a class="nav-link" routerLink="/products" routerLinkActive="active">Products</a>

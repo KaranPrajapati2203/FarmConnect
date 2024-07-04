@@ -1,25 +1,90 @@
 <div class="order-history-container">
-    <h3>Your Order History</h3>
-    <div *ngIf="orders.length === 0">
-      <p>No orders found.</p>
-      <button routerLink="/products" class="thickBtn">Continue Shopping</button>
-    </div>
-    <div *ngIf="orders.length > 0">
-      <div class="order-item" *ngFor="let order of orders">
-        <div class="order-item-details">
-          <div class="left-details">
-            <h2>Order #{{ order.orderId }}</h2>
-            <p>Placed on: {{ order.orderDate | date: 'medium' }}</p>
-            <div class="order-summary">
-                <p>Total items: {{ order.totalItems }}</p>
-                <p>Total amount: ₹{{ order.totalAmount.toFixed(2) }}</p>
+  <h3>Your Order History</h3>
+  <div *ngIf="orders.length === 0">
+    <p>No orders found.</p>
+    <button routerLink="/products" class="thickBtn">Continue Shopping</button>
+  </div>
+  <div *ngIf="orders.length > 0">
+    <div class="order-item" *ngFor="let order of orders">
+      <div class="order-item-details">
+        <div class="left-details">
+          <h2>Order #{{ order.orderId }}</h2>
+          <p>Placed on: {{ order.orderDate | date: 'medium' }}</p>
+          <div class="order-summary">
+            <p class="me-3">Total items: {{ order.orderItems.length }}</p>
+            <p>Total amount: ₹{{ order.totalAmount.toFixed(2) }}</p>
+          </div>
+          <div class="order-items">
+            <div class="order-item-images">
+              <div *ngFor="let item of order.orderItems" class="order-item-image">
+                <img [src]="item.productImage" alt="{{ item.productName }}" class="product-image">
               </div>
+            </div>
           </div>
-          <div class="right-details">
-            <button (click)="viewOrderDetails(order)" class="thickBtn">View Details</button>
-          </div>
+        </div>
+        <div class="right-details">
+          <button (click)="openOrderDetailsModal(orderDetailsContent, order)" class="thickBtn">View Details</button>
         </div>
       </div>
     </div>
   </div>
-  
+</div>
+
+<!-- Order Details Modal -->
+<ng-template #orderDetailsContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Order Details</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="selectedOrder">
+      <h5>Order #{{ selectedOrder.orderId }}</h5>
+      <p>Placed on: {{ selectedOrder.orderDate | date: 'medium' }}</p>
+      <p>Total items: {{ selectedOrder.orderItems.length }}</p>
+      <p>Total amount: ₹{{ selectedOrder.totalAmount.toFixed(2) }}</p>
+      <div class="order-items">
+        <div class="order-item" *ngFor="let item of selectedOrder.orderItems">
+          <img [src]="item.productImage" alt="{{ item.productName }}" class="product-image">
+          <p class="ms-1"><b>{{ item.productName }}</b></p>
+          <p class="ms-1">Quantity: {{ item.quantity }} {{item.productMeasureType}}</p>
+          <p class="ms-1">Price: ₹{{ item.price.toFixed(2) }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<!-- <div class="order-history-container" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="150" (scrolled)="onScroll()">
+  <h3>Your Order History</h3>
+  <div *ngIf="orders.length === 0">
+    <p>No orders found.</p>
+    <button routerLink="/products" class="thickBtn">Continue Shopping</button>
+  </div>
+  <div *ngIf="orders.length > 0">
+    <div class="order-item" *ngFor="let order of orders">
+      <div class="order-item-details">
+        <div class="left-details">
+          <h2>Order #{{ order.orderId }}</h2>
+          <p>Placed on: {{ order.orderDate | date: 'medium' }}</p>
+          <div class="order-summary">
+            <p>Total items: {{ order.orderItems.length }}</p>
+            <p>Total amount: ₹{{ order.totalAmount.toFixed(2) }}</p>
+          </div>
+          <div class="order-items">
+            <div class="order-item-images">
+              <div *ngFor="let item of order.orderItems" class="order-item-image">
+                <img [src]="item.productImage" alt="{{ item.productName }}" class="product-image">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="right-details">
+          <button (click)="viewOrderDetails(order)" class="thickBtn">View Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

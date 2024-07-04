@@ -1,8 +1,16 @@
 /* layout.component.css */
 .main-content {
     padding-top: 50px; 
+    height: 100vh; /* Adjust height based on your header and footer heights */
+    overflow-y: auto; /* Enable vertical scrolling */
+
+     /* Hide scrollbar for Chrome, Safari, and newer Edge */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
   }
-  
+  .main-content::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari, and newer Edge */
+  }
   /* .router-outlet {
     flex: 1; 
     overflow-y: auto; 

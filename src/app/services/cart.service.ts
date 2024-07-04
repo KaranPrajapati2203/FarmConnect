@@ -26,4 +26,8 @@ export class CartService {
   deleteCartItem(cartId: number) {
     return this.http.delete(`${this.apiUrl}/${cartId}`);
   }
+
+  checkout(userId: number) {
+    return this.http.post(`${this.apiUrl}/checkout/${userId}`, {});
+  }
 }

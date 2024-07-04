@@ -43,6 +43,7 @@
         <tr>
           <th scope="col">Product Name</th>
           <th scope="col">Quantity</th>
+          <th scope="col">Measure Type</th>
           <th scope="col">Price Per Measure</th>
           <th scope="col">Listed At</th>
           <th scope="col">Amount Received</th>
@@ -52,6 +53,7 @@
         <tr *ngFor="let listing of myListings">
           <td>{{ listing.productName }}</td>
           <td>{{ listing.listingQuantity }} {{listing.productMeasureType}}</td>
+          <td>{{listing.productMeasureType}}</td>
           <td>₹{{ listing.productPrice }}</td>
           <td>{{ listing.createdAt | date: 'short' }}</td>
           <td>₹{{ listing.productPrice * listing.listingQuantity }}</td>

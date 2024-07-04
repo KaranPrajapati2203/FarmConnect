@@ -1,74 +1,73 @@
-.order-history-container {
+/* .order-history-container {
     padding: 2vw;
     background-color: #f8f9fa;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     max-width: 80vw;
     margin: 0 auto;
-}
-
-.order-history-container h3 {
+  }
+  
+  .order-history-container h3 {
     color: #4CAF50;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 1.5em;
-}
-
-.order-item {
+  }
+  
+  .order-item {
     display: flex;
     align-items: center;
     border-bottom: 1px solid #ccc;
     padding: 1em 0;
-}
-
-.order-item:last-child {
+  }
+  
+  .order-item:last-child {
     border-bottom: none;
-}
-
-.order-item-details {
+  }
+  
+  .order-item-details {
     display: flex;
     justify-content: space-between;
     flex-grow: 1;
     margin-left: 2vw;
-}
-
-.left-details {
+  }
+  
+  .left-details {
     max-width: 60%;
-}
-
-.right-details {
+  }
+  
+  .right-details {
     text-align: right;
     max-width: 40%;
-}
-
-.order-item-details h2 {
+  }
+  
+  .order-item-details h2 {
     color: #388E3C;
     margin: 0;
-}
-
-.order-item-details p {
+  }
+  
+  .order-item-details p {
     margin: 0.5em 0;
     color: #333;
-}
-
-button {
+  }
+  
+  button {
     background-color: #4CAF50;
     color: #ffffff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-}
-
-button:hover {
+  }
+  
+  button:hover {
     background-color: #388E3C;
-}
-
-button:disabled {
+  }
+  
+  button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
-}
-
-.thickBtn {
+  }
+  
+  .thickBtn {
     background-color: #4CAF50;
     color: white;
     padding: 0.5em 1em;
@@ -76,19 +75,174 @@ button:disabled {
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
-}
-
-.thickBtn:hover {
+  }
+  
+  .thickBtn:hover {
     background-color: #388E3C;
-}
-
-.order-summary {
+  }
+  
+  .order-summary {
     display: flex;
-    justify-content: space-between;
     width: 100%;
-}
-
-.order-summary p {
+  }
+  
+  .order-summary p {
     margin: 0;
     padding: 0;
-}
+  }
+  
+  .order-items {
+    margin-top: 1em;
+  }
+  
+  .order-item-images {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  
+  .order-item-image {
+    margin-right: 0.5em;
+  }
+  
+  .product-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+   */
+
+   .order-history-container {
+    padding: 2vw;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    max-width: 80vw;
+    margin: 0 auto;
+  }
+  
+  .order-history-container h3 {
+    color: #4CAF50;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .order-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding: 1em 0;
+  }
+  
+  .order-item:last-child {
+    border-bottom: none;
+  }
+  
+  .order-item-details {
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+    margin-left: 2vw;
+  }
+  
+  .left-details {
+    max-width: 60%;
+  }
+  
+  .right-details {
+    text-align: right;
+    max-width: 40%;
+  }
+  
+  .order-item-details h2 {
+    color: #388E3C;
+    margin: 0;
+  }
+  
+  .order-item-details p {
+    margin: 0.5em 0;
+    color: #333;
+  }
+  
+  button {
+    background-color: #4CAF50;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #388E3C;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .thickBtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .thickBtn:hover {
+    background-color: #388E3C;
+  }
+  
+  .order-summary {
+    display: flex;
+    width: 100%;
+  }
+  
+  .order-summary p {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .order-items {
+    margin-top: 1em;
+  }
+  
+  .order-item-images {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  
+  .order-item-image {
+    margin-right: 0.5em;
+  }
+  
+  .product-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+  
+  /* Customizing Modal */
+  .modal-header {
+    background-color: #4CAF50;
+    color: white;
+    border-bottom: none;
+  }
+  
+  .modal-header .btn-close {
+    color: white;
+  }
+  
+  .modal-body {
+    padding: 1.5rem;
+  }
+  
+  .modal-footer {
+    /* justify-content: center; */
+    padding: 1rem;
+    border-top: none;
+  }
+  

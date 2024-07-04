@@ -101,9 +101,17 @@ export class CartComponent {
   checkout() {
     if (this.cart.length > 0) {
       const totalAmount = this.getTotalPrice();
-      this.toastr.success(`Checkout successful! Total amount: ₹${totalAmount}`, 'Success');
-      console.log('Proceed to checkout');
-      // Implement checkout logic here
+      this.cartService.checkout(this.userId).subscribe(
+        () => {
+          this.cart = [];
+          this.toastr.success(`Checkout successful! Total amount: ₹${totalAmount}`, 'Success');
+          console.log('Proceed to checkout');
+        },
+        (error: any) => {
+          this.toastr.error('Checkout failed!', 'Error');
+          console.error(error);
+        }
+      );
     } else {
       this.toastr.error('Your cart is empty!', 'Error');
     }
