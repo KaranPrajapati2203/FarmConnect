@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProductsComponent } from './components/products/products.component';
 import { SellersComponent } from './components/sellers/sellers.component';
@@ -10,10 +9,11 @@ import { authGuard } from '../app/guards/auth.guard'; // Adjust the path as nece
 import { ManageProductsComponent } from './components/manage-products/manage-products.component';
 import { ListProductsComponent } from './components/list-products/list-products.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 
 
 export const routes: Routes = [
-    { path: "dashboard", component: DashboardComponent },
+    { path: "admin-dashboard", component: AdminDashboardComponent },
     { path: "", component: HomeComponent },
     { path: "products", component: ProductsComponent, canActivate: [authGuard] },
     { path: "sellers", component: SellersComponent, canActivate: [authGuard] },

@@ -1,0 +1,44 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .card {
+    height: 100%;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  
+  .admin-card {
+    /* background-color: #f1f1f1; */
+    border: 1px solid #ddd;
+    color: #333;
+    text-align: center;
+    transition: transform 0.2s;
+  }
+  
+  .admin-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  .card-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -0.75rem;
+  }
+  
+  .col-md-6,
+  .col-lg-3 {
+    padding: 0 0.75rem;
+  }
+  

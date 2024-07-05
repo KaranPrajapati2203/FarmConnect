@@ -150,24 +150,15 @@ export class MapComponent implements OnInit, AfterViewInit {
     }).addTo(this.map);
 
     if (this.showAllMarkets) {
-      // this.map = L.map('map').setView([22.2587, 71.1924], 8); 
-
-      // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      // }).addTo(this.map);
-
       this.sellers.forEach(seller => {
-        L.marker([seller.marketLatitude, seller.marketLongitude]).addTo(this.map)
+        const marker = L.marker([seller.marketLatitude, seller.marketLongitude]).addTo(this.map)
           .bindPopup(`<b>${seller.marketName}</b><br>${seller.marketAddress}`)
           .openPopup();
+        marker.on('click', () => {
+          this.showRouteToMarket(L,[seller.marketLatitude, seller.marketLongitude]);
+        });
       });
     } else {
-      // this.map = L.map('map').setView([this.seller.marketLatitude, this.seller.marketLongitude], 10);
-
-      // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      // }).addTo(this.map);
-
       L.marker([this.seller.marketLatitude, this.seller.marketLongitude]).addTo(this.map)
         .bindPopup(`<b>${this.seller.marketName}</b><br>${this.seller.marketAddress}`)
         .openPopup();
@@ -180,7 +171,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         const currentLatLng: [number, number] = [position.coords.latitude, position.coords.longitude];
-        
+
         if (this.currentLocationMarker) {
           this.map.removeLayer(this.currentLocationMarker);
         }
@@ -214,5 +205,29 @@ export class MapComponent implements OnInit, AfterViewInit {
       ],
       routeWhileDragging: true
     }).addTo(this.map);
+  }
+
+  private showRouteToMarket(L: any, marketLatLng: [number, number]): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const currentLatLng: [number, number] = [position.coords.latitude, position.coords.longitude];
+        
+        if (this.currentLocationMarker) {
+          this.map.removeLayer(this.currentLocationMarker);
+        }
+  
+        this.currentLocationMarker = L.marker(currentLatLng).addTo(this.map)
+          .bindPopup('<b>You are here</b>')
+          .openPopup();
+  
+        this.map.setView(currentLatLng, 13);
+  
+        this.showRoute(L, currentLatLng, marketLatLng);
+      }, error => {
+        console.error('Error getting current location:', error);
+      });
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+    }
   }
 }

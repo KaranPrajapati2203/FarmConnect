@@ -29,8 +29,18 @@
         <li class="nav-item" *ngIf="isLoggedIn && role === '3'">
           <a class="nav-link" routerLink="/my-listing" routerLinkActive="active">My Listings</a>
         </li>
-        <li class="nav-item" *ngIf="isLoggedIn && role === '1'">
-          <a class="nav-link" routerLink="/manage-products" routerLinkActive="active">Manage Products</a>
+        <li class="nav-item dropdown" *ngIf="isLoggedIn && role === '1'">
+          <a class="nav-link dropdown-toggle" href="#" id="adminActionsDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Admin Actions
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="adminActionsDropdown">
+            <li><a class="dropdown-item" routerLink="/admin-dashboard" routerLinkActive="active">Dashboard</a></li>
+            <li><a class="dropdown-item" routerLink="/manage-products" routerLinkActive="active">Manage Products</a>
+            </li>
+            <li><a class="dropdown-item" routerLink="/manage-users" routerLinkActive="active">Manage Users</a></li>
+            <li><a class="dropdown-item" routerLink="/manage-markets" routerLinkActive="active">Manage Markets</a></li>
+          </ul>
         </li>
       </ul>
       <ul class="navbar-nav">

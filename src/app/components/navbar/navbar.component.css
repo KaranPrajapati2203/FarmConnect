@@ -27,3 +27,21 @@
     color: #ffffff;
   }
   
+  .dropdown-menu {
+    background-color: #f8f9fa; /* Match the navbar background */
+    border: none; /* Remove border for a cleaner look */
+}
+
+.dropdown-item {
+    color: #4CAF50; /* Green color for dropdown items */
+}
+
+.dropdown-item:hover {
+    background-color: #e0e0e0; /* Light gray background on hover */
+    color: #388E3C; /* Darker green on hover */
+}
+
+.dropdown-item.active{
+  background-color: #e0e0e0; /* Light gray background on hover */
+  color: black; /* Darker green on hover */
+}
