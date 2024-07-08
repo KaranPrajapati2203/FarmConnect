@@ -1,60 +1,53 @@
 <div class="container mt-4">
-    <div class="row">
-      <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card admin-card">
-          <div class="card-body">
-            <h5 class="card-title">Total Users</h5>
-            <p class="card-text">{{totalUsers}}</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card admin-card">
-          <div class="card-body">
-            <h5 class="card-title">Total Products</h5>
-            <p class="card-text">{{totalProducts}}</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card admin-card">
-          <div class="card-body">
-            <h5 class="card-title">Total Orders</h5>
-            <p class="card-text">{{totalOrders}}</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card admin-card">
-          <div class="card-body">
-            <h5 class="card-title">Total Marketplaces</h5>
-            <p class="card-text">{{totalMarketplaces}}</p>
-          </div>
+  <div class="row">
+    <div class="col-md-6 col-lg-3 mb-4">
+      <div class="card admin-card">
+        <div class="card-body">
+          <h5 class="card-title">Total Users</h5>
+          <p class="card-text">{{totalUsers}}</p>
         </div>
       </div>
     </div>
-  
-    <div class="row mt-5">
-      <div class="col-md-6">
-        <div class="card admin-card">
-          <div class="card-body">
-            <canvas baseChart
-                    [data]="userChartData"
-                    [labels]="userChartLabels"
-                    [chartType]="'doughnut'"></canvas>
-          </div>
+    <div class="col-md-6 col-lg-3 mb-4">
+      <div class="card admin-card">
+        <div class="card-body">
+          <h5 class="card-title">Total Products</h5>
+          <p class="card-text">{{totalProducts}}</p>
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="card admin-card">
-          <div class="card-body">
-            <canvas baseChart
-                    [data]="productChartData"
-                    [labels]="productChartLabels"
-                    [chartType]="'bar'"></canvas>
-          </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mb-4">
+      <div class="card admin-card">
+        <div class="card-body">
+          <h5 class="card-title">Total Orders</h5>
+          <p class="card-text">{{totalOrders}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mb-4">
+      <div class="card admin-card">
+        <div class="card-body">
+          <h5 class="card-title">Total Marketplaces</h5>
+          <p class="card-text">{{totalMarketplaces}}</p>
         </div>
       </div>
     </div>
   </div>
-  
+
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <div class="card admin-card">
+        <div class="card-body chartData">
+          <canvas id="doughnutChart"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card admin-card">
+        <div class="card-body chartData">
+          <canvas id="barChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

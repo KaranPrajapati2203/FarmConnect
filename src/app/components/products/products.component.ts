@@ -124,7 +124,7 @@ export class ProductsComponent {
         productId: item.productId,
         productName: item.productName,
         productDescription: item.productDescription,
-        productPrice: item.productPrice,
+        productPrice: item.sellingPrice,
         productType: PRODUCT_TYPE_MAP[item.productTypeId] || 'unknown',
         productMeasureType: item.productMeasureType,
         productImage: item.productImage,

@@ -138,7 +138,7 @@ export class ListProductsComponent {
           id: item.productId,
           name: item.productName,
           description: item.productDescription,
-          price: item.productPrice,
+          price: item.buyingPrice,
           type: PRODUCT_TYPE_MAP[item.productTypeId] || 'unknown', // Map productTypeId to type string
           measureType: item.productMeasureType,
           imageUrl: item.productImage,
