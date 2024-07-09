@@ -1,127 +1,160 @@
 <div class="container mt-4">
-    <!-- <h2>Manage Products</h2> -->
-
+    <!-- Add New Product Card -->
     <div class="card mb-4">
         <div class="card-header">
             <h5>Add New Product</h5>
         </div>
         <div class="card-body">
-            <form #productForm="ngForm" (ngSubmit)="addProduct(productForm)">
+            <form [formGroup]="newProductForm" (ngSubmit)="addProduct(newProductForm)">
                 <div class="form-group mb-3">
-                    <label for="productName">Product Name</label>
-                    <input type="text" class="form-control" id="productName" [(ngModel)]="newProduct.name" name="name" required #name="ngModel">
-                    <div *ngIf="name.invalid && name.touched" class="invalid-feedback d-block">
+                    <label for="name">Product Name</label>
+                    <input type="text" class="form-control" id="name" formControlName="name">
+                    <div *ngIf="newProductForm.get('name')?.invalid && newProductForm.get('name')?.touched"
+                        class="invalid-feedback d-block">
                         Product name is required.
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="productDescription">Product Description</label>
-                    <textarea class="form-control" id="productDescription" [(ngModel)]="newProduct.description" name="description" required #description="ngModel"></textarea>
-                    <div *ngIf="description.invalid && description.touched" class="invalid-feedback d-block">
+                    <label for="description">Product Description</label>
+                    <textarea class="form-control" id="description" formControlName="description"></textarea>
+                    <div *ngIf="newProductForm.get('description')?.invalid && newProductForm.get('description')?.touched"
+                        class="invalid-feedback d-block">
                         Product description is required.
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="productPrice">Product Price</label>
-                    <input type="number" class="form-control" id="productPrice" [(ngModel)]="newProduct.price" name="price" required #price="ngModel" min="1">
-                    <div *ngIf="price.invalid && price.touched" class="invalid-feedback d-block">
-                        Product price must be greater than zero.
+                    <label for="buyingPrice">Product Buying Price</label>
+                    <input type="number" class="form-control" id="buyingPrice" formControlName="buyingPrice" min="1">
+                    <div *ngIf="newProductForm.get('buyingPrice')?.invalid && newProductForm.get('buyingPrice')?.touched"
+                        class="invalid-feedback d-block">
+                        Product buying price must be greater than zero.
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="productType">Product Type</label>
-                    <select class="form-control" id="productType" [(ngModel)]="newProduct.type" name="type" required #type="ngModel">
+                    <label for="sellingPrice">Product Selling Price</label>
+                    <input type="number" class="form-control" id="sellingPrice" formControlName="sellingPrice" min="1">
+                    <div *ngIf="newProductForm.get('sellingPrice')?.invalid && newProductForm.get('sellingPrice')?.touched"
+                        class="invalid-feedback d-block">
+                        Product selling price must be greater than zero.
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="type">Product Type</label>
+                    <select class="form-control" id="type" formControlName="type">
                         <option value="" disabled selected>Select type</option>
-                        <option value="fruits">Fruits</option>
-                        <option value="vegetables">Vegetables</option>
-                        <option value="dairy">Dairy</option>
+                        <option *ngFor="let key of productTypeMap | keyvalue" [value]="key.key">
+                            {{ key.value }}
+                        </option>
                     </select>
-                    <div *ngIf="type.invalid && type.touched" class="invalid-feedback d-block">
+                    <div *ngIf="newProductForm.get('type')?.invalid && newProductForm.get('type')?.touched"
+                        class="invalid-feedback d-block">
                         Product type is required.
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="measureType">Measurement Type</label>
-                    <select class="form-control" id="measureType" [(ngModel)]="newProduct.measureType" name="measureType" required #measureType="ngModel">
+                    <select class="form-control" id="measureType" formControlName="measureType">
                         <option value="" disabled selected>Select measure type</option>
                         <option *ngFor="let measure of measureTypes" [value]="measure">{{ measure }}</option>
                     </select>
-                    <div *ngIf="measureType.invalid && measureType.touched" class="invalid-feedback d-block">
+                    <div *ngIf="newProductForm.get('measureType')?.invalid && newProductForm.get('measureType')?.touched"
+                        class="invalid-feedback d-block">
                         Measurement type is required.
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="productImage">Product Image URL</label>
-                    <input type="text" class="form-control" id="productImage" [(ngModel)]="newProduct.imageUrl" name="imageUrl" required #imageUrl="ngModel">
-                    <div *ngIf="imageUrl.invalid && imageUrl.touched" class="invalid-feedback d-block">
+                    <label for="imageUrl">Product Image URL</label>
+                    <input type="text" class="form-control" id="imageUrl" formControlName="imageUrl">
+                    <div *ngIf="newProductForm.get('imageUrl')?.invalid && newProductForm.get('imageUrl')?.touched"
+                        class="invalid-feedback d-block">
                         Product image URL is required.
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success" [disabled]="productForm.invalid">Add Product</button>
+                <button type="submit" class="btn btn-success" [disabled]="newProductForm.invalid">Add Product</button>
             </form>
         </div>
     </div>
 
+    <!-- Edit Product Card -->
     <div *ngIf="editProduct" class="card mb-4">
         <div class="card-header">
             <h5>Edit Product</h5>
         </div>
         <div class="card-body">
-            <form #editForm="ngForm" (ngSubmit)="saveProduct(editForm)">
+            <form (ngSubmit)="saveProduct(productForm)" [formGroup]="productForm">
                 <div class="form-group mb-3">
-                    <label for="editProductName">Product Name</label>
-                    <input type="text" class="form-control" id="editProductName" [(ngModel)]="editProduct.name" name="name" required #editName="ngModel">
-                    <div *ngIf="editName.invalid && editName.touched" class="invalid-feedback d-block">
+                    <label for="editName">Product Name</label>
+                    <input type="text" class="form-control" id="editName" formControlName="name">
+                    <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched"
+                        class="invalid-feedback d-block">
                         Product name is required.
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="editProductDescription">Product Description</label>
-                    <textarea class="form-control" id="editProductDescription" [(ngModel)]="editProduct.description" name="description" required #editDescription="ngModel"></textarea>
-                    <div *ngIf="editDescription.invalid && editDescription.touched" class="invalid-feedback d-block">
+                    <label for="editDescription">Product Description</label>
+                    <textarea class="form-control" id="editDescription" formControlName="description"></textarea>
+                    <div *ngIf="productForm.get('description')?.invalid && productForm.get('description')?.touched"
+                        class="invalid-feedback d-block">
                         Product description is required.
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="editProductPrice">Product Price</label>
-                    <input type="number" class="form-control" id="editProductPrice" [(ngModel)]="editProduct.price" name="price" min="1" required #editPrice="ngModel">
-                    <div *ngIf="editPrice.invalid && editPrice.touched" class="invalid-feedback d-block">
-                        Product price must be greater than zero.
+                    <label for="editBuyingPrice">Product Buying Price</label>
+                    <input type="number" class="form-control" id="editBuyingPrice" formControlName="buyingPrice"
+                        min="1">
+                    <div *ngIf="productForm.get('buyingPrice')?.invalid && productForm.get('buyingPrice')?.touched"
+                        class="invalid-feedback d-block">
+                        Product buying price must be greater than zero.
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="editProductType">Product Type</label>
-                    <select class="form-control" id="editProductType" [(ngModel)]="editProduct.type" name="type" required #editType="ngModel">
-                        <option value="fruits">Fruits</option>
-                        <option value="vegetables">Vegetables</option>
-                        <option value="dairy">Dairy</option>
+                    <label for="editSellingPrice">Product Selling Price</label>
+                    <input type="number" class="form-control" id="editSellingPrice" formControlName="sellingPrice"
+                        min="1">
+                    <div *ngIf="productForm.get('sellingPrice')?.invalid && productForm.get('sellingPrice')?.touched"
+                        class="invalid-feedback d-block">
+                        Product selling price must be greater than zero.
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="editType">Product Type</label>
+                    <select class="form-control" id="editType" formControlName="type">
+                        <option *ngFor="let key of productTypeMap | keyvalue" [value]="key.key">
+                            {{ key.value }}
+                        </option>
                     </select>
-                    <div *ngIf="editType.invalid && editType.touched" class="invalid-feedback d-block">
+                    <div *ngIf="productForm.get('type')?.invalid && productForm.get('type')?.touched"
+                        class="invalid-feedback d-block">
                         Product type is required.
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="editMeasureType">Measurement Type</label>
-                    <select class="form-control" id="editMeasureType" [(ngModel)]="editProduct.measureType" name="measureType" required #editMeasureType="ngModel">
+                    <select class="form-control" id="editMeasureType" formControlName="measureType">
                         <option *ngFor="let measure of measureTypes" [value]="measure">{{ measure }}</option>
                     </select>
-                    <div *ngIf="editMeasureType.invalid && editMeasureType.touched" class="invalid-feedback d-block">
+                    <div *ngIf="productForm.get('measureType')?.invalid && productForm.get('measureType')?.touched"
+                        class="invalid-feedback d-block">
                         Measurement type is required.
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="editProductImage">Product Image URL</label>
-                    <input type="text" class="form-control" id="editProductImage" [(ngModel)]="editProduct.imageUrl" name="imageUrl" required #editImageUrl="ngModel">
-                    <div *ngIf="editImageUrl.invalid && editImageUrl.touched" class="invalid-feedback d-block">
+                    <label for="editImageUrl">Product Image URL</label>
+                    <input type="text" class="form-control" id="editImageUrl" formControlName="imageUrl">
+                    <div *ngIf="productForm.get('imageUrl')?.invalid && productForm.get('imageUrl')?.touched"
+                        class="invalid-feedback d-block">
                         Product image URL is required.
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success me-1" [disabled]="editForm.invalid">Save Changes</button>
+                <button type="submit" class="btn btn-success me-1"
+                    [disabled]="productForm.invalid || !formChangesMade">Save
+                    Changes</button>
                 <button type="button" class="btn btn-danger" (click)="cancelEdit()">Cancel</button>
             </form>
         </div>
     </div>
 
+    <!-- Product List Card -->
     <div class="card">
         <div class="card-header">
             <h5>Product List</h5>
@@ -134,7 +167,8 @@
                             <th>Image</th>
                             <th>Name</th>
                             <th>Description</th>
-                            <th>Price</th>
+                            <th>Buying Price</th>
+                            <th>Selling Price</th>
                             <th>Type</th>
                             <th>Measurement</th>
                             <th>Actions</th>
@@ -142,16 +176,23 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let product of products">
-                            <td><img [src]="product.imageUrl" alt="{{product.name}}" class="img-fluid" width="100" height="100"></td>
-                            <td>{{ product.name }}</td>
-                            <td>{{ product.description }}</td>
-                            <td>{{ product.price }}</td>
-                            <td>{{ product.type }}</td>
-                            <td>{{ product.measureType }}</td>
+                            <td><img [src]="product.productImage" alt="{{product.productName}}" class="img-fluid"
+                                    width="100" height="100"></td>
+                            <td>{{ product.productName }}</td>
+                            <td>{{ product.productDescription }}</td>
+                            <td>₹ {{ product.buyingPrice }}</td>
+                            <td>₹ {{ product.sellingPrice }}</td>
+                            <td>{{ productTypeMap[product.productTypeId] || 'Unknown Type' }}</td>
+                            <td>{{ product.productMeasureType }}</td>
                             <td>
-                                <button class="btn btn-sm btn-success me-1" (click)="editProductDetails(product)">Edit</button>
-                                <button class="btn btn-sm btn-danger" (click)="deleteProduct(product.id)">Delete</button>
+                                <button class="btn btn-success btn-sm me-1"
+                                    (click)="editProductDetails(product)">Edit</button>
+                                <button class="btn btn-danger btn-sm"
+                                    (click)="deleteProduct(product.productId)">Delete</button>
                             </td>
+                        </tr>
+                        <tr *ngIf="products.length === 0">
+                            <td colspan="8" class="text-center">No products available</td>
                         </tr>
                     </tbody>
                 </table>

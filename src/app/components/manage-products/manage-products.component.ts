@@ -1,172 +1,174 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { AdminService } from '../../services/admin.service';
+import { ProductService } from '../../services/product.service';
+import { PRODUCT_TYPE_MAP } from '../../interfaces/product-type-map';
 
 interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  type: string;
-  selectedQuantity: number;
-  measureType: string;
-  imageUrl: string;
+  productId: number;
+  productName: string;
+  productDescription: string;
+  buyingPrice: number;
+  sellingPrice: number;
+  productTypeId: number;
+  productMeasureType: string;
+  productImage: string;
+  maxQuantity: number;
+  availableQuantity: number;
+  isNeeded: boolean;
+  isAvailable: boolean;
+  createdAt: Date;
 }
 
 @Component({
   selector: 'app-manage-products',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './manage-products.component.html',
   styleUrl: './manage-products.component.css'
 })
 export class ManageProductsComponent {
   products: Product[] = [];
-  newProduct: Product = {
-    id: 0,
-    name: '',
-    description: '',
-    price: 0,
-    type: '',
-    selectedQuantity: 0,
-    measureType: '',
-    imageUrl: ''
-  };
+  newProduct: Product = {} as Product;
   editProduct: Product | null = null;
-  nextProductId: number = 1;
-  measureTypes: string[] = ['kg', 'L', 'dozen']; // Example measure types
+  newProductForm!: FormGroup; // FormGroup for adding new product
+  productForm!: FormGroup;
+  measureTypes: string[] = ['kg', 'L', 'dozen']; // Example measure types, adjust as needed
+  productTypeMap = PRODUCT_TYPE_MAP; // Using the product type map
+  formChangesMade = false; // Track form changes
+  originalProductData: Product | null = null; // Store original product data for comparison
 
-  constructor() { }
+
+  constructor(private adminService: AdminService, private productService: ProductService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    // Initial data
-    this.products = [
-      {
-        id: 1,
-        name: 'Organic Apples',
-        description: 'Fresh and juicy organic apples from local farms.',
-        price: 120,
-        type: 'fruits',
-        selectedQuantity: 0,
-        measureType: 'kg',
-        imageUrl: 'https://www.shimlafarms.com/cdn/shop/products/Redapple3.png?v=1675785288&width=1445'
-      },
-      {
-        id: 2,
-        name: 'Fresh Carrots',
-        description: 'Crisp and sweet carrots grown with love.',
-        price: 90,
-        type: 'vegetables',
-        selectedQuantity: 0,
-        measureType: 'kg',
-        imageUrl: 'https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/usa-new-york-city-carrots-for-sale-tetra-images.jpg'
-      },
-      {
-        id: 3,
-        name: 'Dairy Milk',
-        description: 'Pure and fresh milk from grass-fed cows.',
-        price: 50,
-        type: 'dairy',
-        selectedQuantity: 0,
-        measureType: 'L',
-        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFLbH-mTn8P736RPcSHkV16rhLF1vZvStQMg&s'
-      },
-      {
-        id: 4,
-        name: 'Fresh Strawberries',
-        description: 'Sweet and juicy strawberries freshly picked.',
-        price: 150,
-        type: 'fruits',
-        selectedQuantity: 0,
-        measureType: 'kg',
-        imageUrl: 'https://d3fwccq2bzlel7.cloudfront.net/Pictures/480xany/5/8/8/35588_2_1203853_e.jpg'
-      },
-      {
-        id: 5,
-        name: 'Organic Broccoli',
-        description: 'Healthy and fresh organic broccoli.',
-        price: 80,
-        type: 'vegetables',
-        selectedQuantity: 0,
-        measureType: 'kg',
-        imageUrl: 'https://s.alicdn.com/@sc04/kf/A4f577b2659534d3292fd568d359d9cc5j.jpg_300x300.jpg'
-      },
-      {
-        id: 6,
-        name: 'Fresh Oranges',
-        description: 'Fresh and juicy oranges.',
-        price: 200,
-        type: 'fruits',
-        selectedQuantity: 0,
-        measureType: 'kg',
-        imageUrl: 'https://tacomaboys.com/wp-content/uploads/2020/04/TB-27-8701-1024x588.jpg'
-      },
-      {
-        id: 7,
-        name: 'Organic Tomatoes',
-        description: 'Ripe and juicy organic tomatoes.',
-        price: 70,
-        type: 'vegetables',
-        selectedQuantity: 0,
-        measureType: 'kg',
-        imageUrl: 'https://i.cdn.newsbytesapp.com/images/l29720230821154142.jpeg'
-      },
-      {
-        id: 8,
-        name: 'Fresh Spinach',
-        description: 'Leafy green spinach, rich in nutrients.',
-        price: 60,
-        type: 'vegetables',
-        selectedQuantity: 0,
-        measureType: 'kg',
-        imageUrl: 'https://www.bigbasket.com/media/uploads/p/xxl/40200226_1-farmogo-spinach-hydroponically-grown.jpg'
-      },
-      {
-        id: 9,
-        name: 'Grapes',
-        description: 'Sweet and juicy organic grapes.',
-        price: 140,
-        type: 'fruits',
-        selectedQuantity: 0,
-        measureType: 'kg',
-        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/36/Kyoho-grape.jpg'
-      }
-    ];
-    this.nextProductId = this.products.length + 1;
-  }
+    this.newProductForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      buyingPrice: ['', [Validators.required, Validators.min(1)]],
+      sellingPrice: ['', [Validators.required, Validators.min(1)]],
+      type: ['', Validators.required],
+      measureType: ['', Validators.required],
+      imageUrl: ['', Validators.required]
+    });
 
+    this.productForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      buyingPrice: ['', [Validators.required, Validators.min(1)]],
+      sellingPrice: ['', [Validators.required, Validators.min(1)]],
+      type: ['', Validators.required],
+      measureType: ['', Validators.required],
+      imageUrl: ['', Validators.required]
+    });
+
+    // Subscribe to form changes to track if any changes are made
+    this.productForm.valueChanges.subscribe(() => {
+      this.formChangesMade = true;
+    });
+
+    this.loadProducts();
+  }
+  loadProducts(): void {
+    this.productService.getProducts().subscribe(
+      (data: any) => {
+        this.products = data.map((product: any) => ({
+          ...product,
+          productTypeName: PRODUCT_TYPE_MAP[product.productTypeId] || 'Unknown Type'
+        }));
+      },
+      (error: any) => {
+        console.error('Error fetching products', error);
+      }
+    );
+  }
   addProduct(form: any): void {
-    if (form.invalid) {
-      return;
+    if (form.valid) {
+      this.adminService.createProduct(this.newProduct).subscribe(
+        (response: any) => {
+          console.log('Product added successfully', response);
+          this.resetForm(form);
+          this.loadProducts();
+        },
+        (error: any) => {
+          console.error('Error adding product', error);
+        }
+      );
+    } else {
+      form.markAllAsTouched();
     }
-    this.newProduct.id = this.nextProductId++;
-    this.products.push({ ...this.newProduct });
-    this.newProduct = { id: 0, name: '', description: '', price: 0, type: '', selectedQuantity: 0, measureType: '', imageUrl: '' };
-    form.resetForm();
   }
 
   editProductDetails(product: Product): void {
-    this.editProduct = { ...product };
+    // Fetch the product details by ID
+    this.adminService.getProductById(product.productId).subscribe(
+      (data: Product) => {
+        this.editProduct = { ...data };
+        this.populateFormWithData(this.editProduct); // Populate form with fetched data
+      },
+      (error: any) => {
+        console.error('Error fetching product details', error);
+      }
+    );
   }
+  private populateFormWithData(product: Product): void {
+    this.productForm.patchValue({
+      name: product.productName,
+      description: product.productDescription,
+      buyingPrice: product.buyingPrice,
+      sellingPrice: product.sellingPrice,
+      type: product.productTypeId.toString(), // Assuming type is stored as string in the form
+      measureType: product.productMeasureType,
+      imageUrl: product.productImage
+    });
 
+    this.formChangesMade = false; // Reset form changes tracking after populating form
+  }
   saveProduct(form: any): void {
-    if (form.invalid) {
-      return;
-    } else if (this.editProduct && this.editProduct.price > 0) {
-      const index = this.products.findIndex(p => p.id === this.editProduct!.id);
-      this.products[index] = { ...this.editProduct };
-      this.editProduct = null;
-    } else {
-      alert("Product price must be greater than zero.");
+    if (form.valid && this.editProduct) {
+      this.adminService.updateProduct(this.editProduct.productId, this.editProduct).subscribe(
+        (response: any) => {
+          console.log('Product updated successfully', response);
+          this.cancelEdit();
+          this.loadProducts();
+          this.formChangesMade = false; // Reset form changes tracking after saving
+        },
+        (error: any) => {
+          console.error('Error updating product', error);
+        }
+      );
+    }
+    else {
+      form.markAllAsTouched();
     }
   }
 
 
   deleteProduct(productId: number): void {
-    this.products = this.products.filter(p => p.id !== productId);
+    if (confirm('Are you sure you want to delete this product?')) {
+      this.adminService.deleteProduct(productId).subscribe(
+        (response: any) => {
+          console.log('Product deleted successfully', response);
+          this.loadProducts();
+        },
+        (error: any) => {
+          console.error('Error deleting product', error);
+        }
+      );
+    }
   }
-
+  private resetForm(form: FormGroup): void {
+    form.reset();
+    Object.keys(form.controls).forEach(key => {
+      form.get(key)?.setErrors(null);
+    });
+    this.newProduct = {} as Product;
+    this.editProduct = null;
+    this.formChangesMade = false;
+  }
   cancelEdit(): void {
     this.editProduct = null;
+    this.formChangesMade = false; // Reset form changes tracking on cancel
   }
 }

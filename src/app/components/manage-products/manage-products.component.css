@@ -23,6 +23,7 @@
   }
   .invalid-feedback {
     display: block;
+    color: red;
   }
   
   @media (max-width: 767px) {
