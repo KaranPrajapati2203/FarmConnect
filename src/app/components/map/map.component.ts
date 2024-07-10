@@ -132,7 +132,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   private initMap(L: any = null): void {
     if (!this.seller && !this.showAllMarkets) {
-      console.log('Seller not found');
+      // console.log('Seller not found');
       return;
     }
 

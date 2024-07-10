@@ -200,7 +200,7 @@ export class ProductsComponent {
       // productMeasureType: product.measureType,
       // productImage: product.imageUrl
     };
-    console.log('cart items data: ' + JSON.stringify(cartItem));
+    // console.log('cart items data: ' + JSON.stringify(cartItem));
     this.cartService.addToCart(cartItem).subscribe(
       () => {
         this.toastr.success(`Added <b>${product.selectedQuantity} ${product.productMeasureType}</b> of "<b>${product.productName}</b>" to the cart.`);

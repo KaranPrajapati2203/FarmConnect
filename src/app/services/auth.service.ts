@@ -27,8 +27,8 @@ export class AuthService {
   }
 
   login(loginData: any) {
-    console.log('AuthService login method called');
-    console.log('Login data:', loginData);
+    // console.log('AuthService login method called');
+    // console.log('Login data:', loginData);
     return this.http.post<any>(`${this.apiUrl}/login`, loginData);
   }
 
@@ -41,7 +41,7 @@ export class AuthService {
         this.roleSubject.next(null); // Update the role to null
         this.toastr.success('Logout Successful', 'Success'); // Display success message
         this.router.navigateByUrl('');
-        console.log("logout successful");
+        // console.log("logout successful");
       }
     }
     catch (error) {

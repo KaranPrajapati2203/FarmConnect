@@ -1,11 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Chart, registerables } from 'chart.js';
 import { AdminService } from '../../services/admin.service';
-import 'chartjs-adapter-date-fns';
-import 'chartjs-plugin-datalabels';
-
-Chart.register(...registerables);
+import * as echarts from 'echarts';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -33,7 +29,7 @@ export class AdminDashboardComponent {
   fetchDashboardData(): void {
     this.adminService.getDashboardData().subscribe({
       next: (data: any) => {
-        console.log("data " + JSON.stringify(data));
+        // console.log("data " + JSON.stringify(data));
         this.totalUsers = data.totalUsers;
         this.totalProducts = data.totalProducts;
         this.totalOrders = data.totalOrders;
@@ -58,206 +54,172 @@ export class AdminDashboardComponent {
     this.displayRevenueByProductTypeChart();
   }
   displayCategoryChart(): void {
-    const categoryCtx = document.getElementById('categoryChart') as HTMLCanvasElement;
+    const categoryElement = document.getElementById('categoryChart') as HTMLDivElement;
+    const categoryChart = echarts.init(categoryElement);
 
     const categoryLabels = this.productCategories.map(category => category.productTypeName);
     const categoryData = this.productCategories.map(category => category.productCount);
 
-    new Chart(categoryCtx, {
-      type: 'pie',
-      data: {
-        labels: categoryLabels,
-        datasets: [{
-          label: 'Product Categories',
-          data: categoryData,
-          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-          hoverBackgroundColor: ['#FF7395', '#64B5F6', '#FFD54F']
-        }]
+    const categoryOptions = {
+      title: {
+        text: 'Product Categories',
+        left: 'center'
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          tooltip: {
-            callbacks: {
-              label: (tooltipItem: any) => {
-                const dataset = tooltipItem.dataset;
-                const label = dataset.label || '';
-                const value = dataset.data[tooltipItem.dataIndex];
-                const total = dataset.data.reduce((acc: number, val: number) => acc + val, 0);
-                const percentage = Math.round((value / total) * 100);
-                return `${label}: ${value} (${percentage}%)`;
-              }
+      tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b} : {c} ({d}%)'
+      },
+      legend: {
+        orient: 'vertical',
+        left: 'left'
+      },
+      series: [
+        {
+          name: 'Product Categories',
+          type: 'pie',
+          radius: '50%',
+          data: categoryData.map((value, index) => ({
+            value,
+            name: categoryLabels[index]
+          })),
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
             }
           },
-          legend: {
-            position: 'right',
-            align: 'center'
+          label: {
+            formatter: '{b}: {d}%'
           }
         }
-      }
-    });
-  }
-  displayUserRegistrationChart(): void {
-    const registrationCtx = document.getElementById('registrationChart') as HTMLCanvasElement;
+      ],
+      color: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'] // Example color palette
+    };
 
-    const registrationLabels = this.userRegistrationOverTime.map(item => item.registrationMonth);
+    categoryChart.setOption(categoryOptions);
+  }
+
+  displayUserRegistrationChart(): void {
+    const registrationElement = document.getElementById('registrationChart') as HTMLDivElement;
+    const registrationChart = echarts.init(registrationElement);
+
+    const registrationLabels = this.userRegistrationOverTime.map(item => item.registrationDay);
     const registrationData = this.userRegistrationOverTime.map(item => item.userCount);
 
-    new Chart(registrationCtx, {
-      type: 'line',
-      data: {
-        labels: registrationLabels,
-        datasets: [{
-          label: 'User Registration Over Time',
-          data: registrationData,
-          borderColor: '#3e95cd',
-          fill: false
-        }]
+    const registrationOptions = {
+      title: {
+        text: 'User Registration Over Time',
+        left: 'center'
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            type: 'time',
-            time: {
-              unit: 'month',
-              displayFormats: {
-                month: 'MMM yyyy'
-              }
-            },
-            title: {
-              display: true,
-              text: 'Date'
-            }
-          },
-          y: {
-            title: {
-              display: true,
-              text: 'Number of Users'
-            }
-          }
-        }
-      }
-    });
-  }
-  displayProductListingsChart(): void {
-    const listingsCtx = document.getElementById('listingsChart') as HTMLCanvasElement;
-
-    const sellerLabels = this.productListingsBySellers.map(item => item.sellerName);
-    const listingsData = this.productListingsBySellers.map(item => item.listingCount);
-
-    new Chart(listingsCtx, {
-      type: 'bar',
-      data: {
-        labels: sellerLabels,
-        datasets: [{
-          label: 'Product Listings by Sellers',
-          data: listingsData,
-          backgroundColor: '#8e5ea2'
-        }]
+      tooltip: {
+        trigger: 'axis'
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: 'Sellers'
-            }
-          },
-          y: {
-            title: {
-              display: true,
-              text: 'Number of Listings'
-            }
-          }
+      xAxis: {
+        type: 'category',
+        data: registrationLabels,
+        axisLabel: {
+          formatter: (value: string) => echarts.format.formatTime('yyyy-MM-dd', value)
         }
-      }
-    });
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [{
+        data: registrationData,
+        type: 'line',
+        smooth: true,
+        label: {
+          show: true,
+          position: 'top'
+        }
+      }]
+    };
+
+    registrationChart.setOption(registrationOptions);
   }
   displayOrdersOverTimeChart(): void {
-    const ordersCtx = document.getElementById('ordersChart') as HTMLCanvasElement;
+    const ordersElement = document.getElementById('ordersChart') as HTMLDivElement;
+    const ordersChart = echarts.init(ordersElement);
 
-    const orderLabels = this.ordersOverTime.map(item => item.orderMonth);
+    const orderLabels = this.ordersOverTime.map(item => item.orderDay);
     const orderData = this.ordersOverTime.map(item => item.orderCount);
 
-    new Chart(ordersCtx, {
-      type: 'line',
-      data: {
-        labels: orderLabels,
-        datasets: [{
-          label: 'Orders Over Time',
-          data: orderData,
-          borderColor: '#3cba9f',
-          fill: false
-        }]
+    const ordersOptions = {
+      title: {
+        text: 'Orders Over Time',
+        left: 'center'
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            type: 'time',
-            time: {
-              unit: 'month',
-              displayFormats: {
-                month: 'MMM yyyy'
-              }
-            },
-            title: {
-              display: true,
-              text: 'Date'
-            }
-          },
-          y: {
-            title: {
-              display: true,
-              text: 'Number of Orders'
-            }
-          }
+      tooltip: {
+        trigger: 'axis'
+      },
+      xAxis: {
+        type: 'category',
+        data: orderLabels,
+        axisLabel: {
+          formatter: (value: string) => echarts.format.formatTime('yyyy-MM-dd', value)
         }
-      }
-    });
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [{
+        data: orderData,
+        type: 'line',
+        smooth: true,
+        label: {
+          show: true,
+          position: 'top'
+        }
+      }]
+    };
+
+    ordersChart.setOption(ordersOptions);
   }
   displayRevenueByProductTypeChart(): void {
-    const revenueCtx = document.getElementById('revenueChart') as HTMLCanvasElement;
+    const revenueElement = document.getElementById('revenueChart') as HTMLDivElement;
+    const revenueChart = echarts.init(revenueElement);
 
     const productLabels = this.revenueByProductType.map(item => item.productTypeName);
     const revenueData = this.revenueByProductType.map(item => item.totalRevenue);
 
-    new Chart(revenueCtx, {
-      type: 'bar',
-      data: {
-        labels: productLabels,
-        datasets: [{
-          label: 'Revenue by Product Type',
-          data: revenueData,
-          backgroundColor: '#f0ad4e'
-        }]
+    const revenueOptions = {
+      title: {
+        text: 'Revenue by Product Type',
+        left: 'center'
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: 'Product Types'
-            }
-          },
-          y: {
-            title: {
-              display: true,
-              text: 'Total Revenue'
-            }
-          }
+      tooltip: {
+        trigger: 'axis',
+        formatter: (params: any) => {
+          let value = params[0].value;
+          return `${params[0].axisValue}<br/>Revenue: ₹${value.toLocaleString('en-IN')}`;
         }
-      }
-    });
-  }
+      },
+      xAxis: {
+        type: 'category',
+        data: productLabels
+      },
+      yAxis: {
+        type: 'value',
+        axisLabel: {
+          formatter: (value: number) => `₹${value.toLocaleString('en-IN')}`
+        }
+      },
+      series: [{
+        data: revenueData,
+        type: 'bar',
+        itemStyle: {
+          color: '#f0ad4e'
+        },
+        label: {
+          show: true,
+          position: 'top',
+          formatter: (params: any) => `₹${params.value.toLocaleString('en-IN')}`
+        }
+      }]
+    };
 
+    revenueChart.setOption(revenueOptions);
+  }
 
 }

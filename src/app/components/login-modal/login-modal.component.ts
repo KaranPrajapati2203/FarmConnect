@@ -52,23 +52,24 @@ export class LoginModalComponent {
             // Extract role from response or decoded token
             const decodedToken: any = this.authService.decodeToken(response.token);
             const userRole = decodedToken.RoleId;
-            console.log("from login role is: " + JSON.stringify(userRole))
+            // console.log("from login role is: " + JSON.stringify(userRole))
 
             this.activeModal.close('Login Successful');
             this.toastr.success('Login Successful', 'Success');
 
             if (userRole === "3") {
               // debugger;
-              console.log("in 3");
-              this.router.navigateByUrl('/list-products').then(success => {
-                if (success) {
-                  console.log("Navigation to /list-products successful");
-                } else {
-                  console.log("Navigation to /list-products failed");
-                }
-              });
+              // console.log("in 3");
+              this.router.navigateByUrl('/list-products')
+              // .then(success => {
+              //   if (success) {
+              //     console.log("Navigation to /list-products successful");
+              //   } else {
+              //     console.log("Navigation to /list-products failed");
+              //   }
+              // });
             } else {
-              console.log('in else');
+              // console.log('in else');
               this.router.navigateByUrl('/products');
             }
           } else {

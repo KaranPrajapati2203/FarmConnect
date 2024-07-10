@@ -89,7 +89,8 @@ export class CartComponent {
   updateCartItem(product: any) {
     this.cartService.updateCartItem(product.cartId, { quantity: product.quantity }).subscribe(
       () => {
-        this.toastr.success('Cart updated successfully.', 'Success');
+        // this.toastr.success('Cart updated successfully.', 'Success');
+        console.log("Cart item updated");
       },
       (error: any) => {
         this.toastr.error('Failed to update cart.', 'Error');
@@ -105,7 +106,7 @@ export class CartComponent {
         () => {
           this.cart = [];
           this.toastr.success(`Checkout successful! Total amount: ₹${totalAmount}`, 'Success');
-          console.log('Proceed to checkout');
+          // console.log('Proceed to checkout');
         },
         (error: any) => {
           this.toastr.error('Checkout failed!', 'Error');

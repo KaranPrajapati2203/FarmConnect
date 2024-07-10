@@ -29,7 +29,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     this.roleSubscription = this.authService.role$.subscribe((role: any) => {
       this.role = role;
-      console.log("Updated role:", this.role);
+      // console.log("Updated role:", this.role);
     });
   }
 
@@ -44,7 +44,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     modalRef.result.then(
       (result: any) => {
         // debugger;
-        console.log(result);
+        // console.log(result);
         this.isLoggedIn = true; // Set to true after successful login
         this.router.navigateByUrl("/products");
       },

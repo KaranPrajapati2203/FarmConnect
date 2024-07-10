@@ -29,7 +29,7 @@ export class OrderHistoryComponent {
     if (this.userId) {
       this.orderService.getOrderHistory(this.userId).subscribe(
         (data: any) => {
-          console.log("data: " + JSON.stringify(data));
+          // console.log("data: " + JSON.stringify(data));
           if (Array.isArray(data)) {
             const length = data.length;
             this.orders = data.map((order, index) => {

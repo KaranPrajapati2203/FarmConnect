@@ -15,7 +15,7 @@ export class CartService {
 
   addToCart(cartItem: any) {
     // debugger;
-    console.log(JSON.stringify(cartItem));
+    // console.log(JSON.stringify(cartItem));
     return this.http.post(this.apiUrl, cartItem);
   }
 

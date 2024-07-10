@@ -32,11 +32,13 @@ export class AdminService {
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
 
-  createProduct(product: Product) {
+  createProduct(product: any) {
     return this.http.post(`${this.apiUrl}`, product);
   }
 
-  updateProduct(id: number, product: Product) {
+  updateProduct(id: number, product: any) {
+    console.log("id: " + JSON.stringify(id));
+    console.log("product: " + JSON.stringify(product));
     return this.http.put(`${this.apiUrl}/${id}`, product);
   }
 

@@ -57,7 +57,7 @@
   border: 2px solid red;
 } */
 
-.chartData canvas {
+.chartData div {
   width: 100% !important;
   height: 400px !important; /* Set your desired height here */
 }

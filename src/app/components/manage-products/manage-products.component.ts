@@ -4,6 +4,7 @@ import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } 
 import { AdminService } from '../../services/admin.service';
 import { ProductService } from '../../services/product.service';
 import { PRODUCT_TYPE_MAP } from '../../interfaces/product-type-map';
+import { ToastrService } from 'ngx-toastr';
 
 interface Product {
   productId: number;
@@ -40,7 +41,12 @@ export class ManageProductsComponent {
   originalProductData: Product | null = null; // Store original product data for comparison
 
 
-  constructor(private adminService: AdminService, private productService: ProductService, private formBuilder: FormBuilder) { }
+  constructor(
+    private adminService: AdminService,
+    private productService: ProductService,
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.newProductForm = this.formBuilder.group({
@@ -79,19 +85,31 @@ export class ManageProductsComponent {
         }));
       },
       (error: any) => {
+        this.toastr.error('Error fetching products','Error')
         console.error('Error fetching products', error);
       }
     );
   }
   addProduct(form: any): void {
     if (form.valid) {
-      this.adminService.createProduct(this.newProduct).subscribe(
+      const productData = {
+        productName: form.value.name,
+        productDescription: form.value.description,
+        buyingPrice: form.value.buyingPrice,
+        sellingPrice: form.value.sellingPrice,
+        productTypeId: parseInt(form.value.type, 10),
+        productMeasureType: form.value.measureType,
+        productImage: form.value.imageUrl,
+      };
+      this.adminService.createProduct(productData).subscribe(
         (response: any) => {
+          this.toastr.success('Product added successfully', 'Success')
           console.log('Product added successfully', response);
           this.resetForm(form);
           this.loadProducts();
         },
         (error: any) => {
+          this.toastr.error('Error adding product','Error');
           console.error('Error adding product', error);
         }
       );
@@ -108,6 +126,7 @@ export class ManageProductsComponent {
         this.populateFormWithData(this.editProduct); // Populate form with fetched data
       },
       (error: any) => {
+        this.toastr.error('Error fetching product details','Error');
         console.error('Error fetching product details', error);
       }
     );
@@ -127,14 +146,25 @@ export class ManageProductsComponent {
   }
   saveProduct(form: any): void {
     if (form.valid && this.editProduct) {
-      this.adminService.updateProduct(this.editProduct.productId, this.editProduct).subscribe(
+      const productData = {
+        productName: form.value.name,
+        productDescription: form.value.description,
+        buyingPrice: form.value.buyingPrice,
+        sellingPrice: form.value.sellingPrice,
+        productTypeId: parseInt(form.value.type, 10),
+        productMeasureType: form.value.measureType,
+        productImage: form.value.imageUrl,
+      };
+      this.adminService.updateProduct(this.editProduct.productId, productData).subscribe(
         (response: any) => {
+          this.toastr.success('Product edited successfully', 'Success')
           console.log('Product updated successfully', response);
           this.cancelEdit();
           this.loadProducts();
           this.formChangesMade = false; // Reset form changes tracking after saving
         },
         (error: any) => {
+          this.toastr.error('Error updating product','Error');
           console.error('Error updating product', error);
         }
       );
@@ -149,10 +179,12 @@ export class ManageProductsComponent {
     if (confirm('Are you sure you want to delete this product?')) {
       this.adminService.deleteProduct(productId).subscribe(
         (response: any) => {
+          this.toastr.success('Product deleted successfully', 'Success')
           console.log('Product deleted successfully', response);
           this.loadProducts();
         },
         (error: any) => {
+          this.toastr.error('Error deleting product','Error');
           console.error('Error deleting product', error);
         }
       );

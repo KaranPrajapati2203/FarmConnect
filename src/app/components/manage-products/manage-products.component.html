@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="buyingPrice">Product Buying Price</label>
+                    <label for="buyingPrice">Product Buying Price (Price For Farmers)</label>
                     <input type="number" class="form-control" id="buyingPrice" formControlName="buyingPrice" min="1">
                     <div *ngIf="newProductForm.get('buyingPrice')?.invalid && newProductForm.get('buyingPrice')?.touched"
                         class="invalid-feedback d-block">
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="sellingPrice">Product Selling Price</label>
+                    <label for="sellingPrice">Product Selling Price (Price For Users)</label>
                     <input type="number" class="form-control" id="sellingPrice" formControlName="sellingPrice" min="1">
                     <div *ngIf="newProductForm.get('sellingPrice')?.invalid && newProductForm.get('sellingPrice')?.touched"
                         class="invalid-feedback d-block">
@@ -99,7 +99,7 @@
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="editBuyingPrice">Product Buying Price</label>
+                    <label for="editBuyingPrice">Product Buying Price (Price For Farmers)</label>
                     <input type="number" class="form-control" id="editBuyingPrice" formControlName="buyingPrice"
                         min="1">
                     <div *ngIf="productForm.get('buyingPrice')?.invalid && productForm.get('buyingPrice')?.touched"
@@ -108,7 +108,7 @@
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="editSellingPrice">Product Selling Price</label>
+                    <label for="editSellingPrice">Product Selling Price (Price For Users)</label>
                     <input type="number" class="form-control" id="editSellingPrice" formControlName="sellingPrice"
                         min="1">
                     <div *ngIf="productForm.get('sellingPrice')?.invalid && productForm.get('sellingPrice')?.touched"
