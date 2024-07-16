@@ -13,8 +13,8 @@ import { AdminDashboardComponent } from './components/admin-dashboard/admin-dash
 
 
 export const routes: Routes = [
-    { path: "admin-dashboard", component: AdminDashboardComponent },
     { path: "", component: HomeComponent },
+    { path: "admin-dashboard", component: AdminDashboardComponent, canActivate: [authGuard] },
     { path: "products", component: ProductsComponent, canActivate: [authGuard] },
     { path: "sellers", component: SellersComponent, canActivate: [authGuard] },
     { path: "cart", component: CartComponent, canActivate: [authGuard] },
